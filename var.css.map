@@ -1,0 +1,3073 @@
+<!DOCTYPE html>
+<html lang='ar'>
+    <head>
+
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Black+Han+Sans&family=Cairo:wght@700&family=Noto+Kufi+Arabic:wght@900&family=Noto+Sans+Arabic:wght@500&family=Roboto:ital,wght@1,100&display=swap" rel="stylesheet">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <link href="style.css" rel="stylesheet">
+            <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+            <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+            <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+       <title>
+            سين سؤال
+        </title>
+
+    </head>
+
+        <body onclick="sound()" width='50%'>
+            <div id="preloader"></div>
+
+
+
+            <div id="Show">
+            </div>
+
+
+
+
+    <script type="text/babel">
+
+        var t=setInterval(Move,1000);
+            function Move(){
+                let body = document.querySelector('body');
+                let question = document.querySelector('#title_img_question');
+                let sooaal = document.querySelector('#title_sooaal');
+                let input_img_q = document.querySelector('#input_img_q');
+                let sign = document.querySelector('#sign');
+                let name_announce = document.querySelector('#name_announce');
+                if(body.style.backgroundImage == 'url("the_yellow_frame.png"), url("background1.jpg")'){
+                    body.style.backgroundImage = 'url("the_yellow_frame.png"), url("background2.jpg")'
+                    question.src = 'left_question_mark.png'
+                    input_img_q.src = 'left_question_mark.png'
+                    sooaal.style.textShadow = '10px 30px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                    sign.style.textShadow = '2px 10px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                    name_announce.style.textShadow = '2px 10px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                }else{
+                    body.style.backgroundImage = 'url("the_yellow_frame.png"), url("background1.jpg")'
+                     question.src = 'right_question_mark.png'
+                     input_img_q.src = 'right_question_mark.png'
+                     sooaal.style.textShadow = '-1px 1px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                     sign.style.textShadow = '-1px 1px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                     name_announce.style.textShadow = '-1px 1px 0 yellow , 1px 1px 0 yellow, 1px -1px 0 yellow , -1px -1px 0 yellow'
+                }
+            }
+
+
+        // THE VARIBALES.
+        let Players = []
+        let x = 0
+        let Staition = 'Title'
+        let know_line = ''
+        let numbers= {
+            0: '٠',
+            1: '١',
+            2:'٢',
+            3:'٣',
+            4:'٤',
+            5:'٥',
+            6:'٦',
+            7:'٧',
+            8:'٨',
+            9:'٩',
+
+        }
+        let Questions = []
+        let right_answer = '#nothing'
+        let right_id = null
+
+        // THE  ARRAY.
+        let properties = [
+        {
+            name:'FAST_GAME',
+            image:'image/FAST_GAME_image.png',
+            voice:'voice/FAST_GAME_voice.m4a',
+            arabic:'بسرعة',
+            side: 'Against',
+            num:0
+
+        },
+        {
+            name:'MORE_TIME',
+            image:'image/MORE_TIME_image.png',
+            voice:'voice/MORE_TIME_voice.mp3',
+            side: 'With',
+            arabic:'زيادة وقت',
+            num:1
+
+        },
+        {
+            name:'DELETE_ANSOWR',
+            image:'image/DELETE_ANSOWR_image.png',
+            voice:'voice/DELETE_ANSOWR_voice.mp3',
+            side: 'With',
+            arabic:'أحذف خيار',
+            num:2
+        },
+        {
+            name:'ELIMINATE_PROPERTIE',
+            image:'image/ELIMINATE_PROPERTIE_image.png',
+            voice:'voice/ELIMINATE_PROPERTIE_voice.m4a',
+            side: 'Against',
+            arabic:'أحذف خاصية',
+            num:3
+
+        },
+        {
+            name:'TAKE_RANDOM_Q_WORD',
+            image:'image/TAKE_RANDOM_Q_WORD_image.png',
+            voice:'voice/TAKE_RANDOM_Q_WORD_voice.mp3',
+            side: 'Against',
+            arabic:'أحذف كلمة',
+            num:4
+
+
+        },
+        {
+            name:'REVERSE_DIRECTION',
+            image:'image/REVERSE_DIRECTION_image.png',
+            voice:'voice/REVERSE_DIRECTION_voice.mp3',
+            side: 'With',
+            arabic:'عكس أتجاه',
+            num:5
+
+        },
+        {
+            name:'NOT_PLAYING',
+            image:'image/NOT_PLAYING_image.png',
+            voice:'voice/NOT_PLAYING_voice.mp3',
+            side: 'With',
+            arabic:'ما بخسر',
+            num:6
+        },
+        {
+            name:'ANOTHER_Q',
+            image:'image/ANOTHER_Q_image.png',
+            voice:'voice/ANOTHER_Q_voice.mp3',
+            side: 'With',
+            arabic:'سؤال ثاني',
+            num:7
+
+
+        },
+        {
+            name:'SHIELD',
+            image:'image/SHIELD_image.png',
+            voice:'voice/SHIELD_voice.mp3',
+            side: 'With',
+            arabic:'الدرع',
+            num:8
+               },
+        {
+            name:'OPINION',
+            image:'image/OPINION_image.png',
+            voice:'voice/OPINION_voice.mp3',
+            arabic:'كتابة سؤال',
+            num:9
+        },
+        ]
+        let Gamer = null
+        let Gamer_file = null
+        let Q_Gamer = null
+        let Q_Gamer_file = null
+        // OPINIONS.
+        let opinions = [
+        {
+            q: 'كم عدد السنوات في العقد',
+            A: '5',
+            B: '10',
+            C: '100',
+            D: '1000',
+            height_q:'97px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#A',
+        },
+        {
+            q: 'ما هوا أخف عنصر في الجدول الذري',
+            A: 'الهيدروجين',
+            B: 'الهيليوم',
+            C: 'الكربون',
+            D: 'النيتروجين',
+            height_q:'97px',
+            height_A:'97px',
+            height_B:'97px',
+            height_C:'55px',
+            height_D:'97px',
+            right_ansowr: '#A',
+        },
+        {
+            q: 'أخت خالك وليست خالتك فمن هي',
+            A: 'خالي',
+            B: 'خالتي',
+            C: 'أمي',
+            D: 'أختي',
+            height_q:'97px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#C',
+        },
+        {
+            q: ' لماذا القطار من وسائل المواصلات المهمة',
+            A: 'يناسب المدن',
+            B: 'سريع',
+            C: 'غالي',
+            D: 'تحته خطين',
+            height_q:'130px',
+            height_A:'97px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'97px',
+            right_ansowr: '#D',
+        },{
+            q: 'البقره أذا عطشت تشرب',
+            A: 'حليب',
+            B: 'عشب',
+            C: 'ماء',
+            D: 'لا تعطش',
+            height_q:'97px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#C',
+        },{
+            q: 'من هو أول إنسان سار على سطح القمر',
+            A: 'نيل آرمنسترونج',
+            B: 'علي النونو',
+            C: 'محمد رمضان',
+            D: 'خليل كومدي',
+            height_q:'97px',
+            height_A:'130px',
+            height_B:'97px',
+            height_C:'97px',
+            height_D:'97px',
+            right_ansowr: '#D',
+        },{
+            q: 'ما هو الشيء الذي يوجد في السماء، وإذا أضيف إليه حرف، فإنه مكانه يصبح في الأرض',
+            A: 'حسن شحاته',
+            B: 'النجم',
+            C: 'القمر',
+            D: 'الشمس',
+            height_q:'196px',
+            height_A:'97px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#B',
+        },{
+            q: 'اليوم التالي لبعد غد هو قبل ثلاثة أيام من يوم السبت، ما هو اليوم',
+            A: 'السبت',
+            B: 'مش عارف',
+            C: 'الخميس',
+            D: 'الأحد',
+            height_q:'163px',
+            height_A:'55px',
+            height_B:'97px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#A',
+        },
+        {
+            q: 'لا وزن لي ولكن تراني ان وضعتني بالدلو',
+            A: 'الثقب',
+            B: 'النار',
+            C: 'الماء',
+            D: 'الفراغ',
+            height_q:'130px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'55px',
+            right_ansowr: '#A',
+        },
+        {
+            q: 'هناك لاعب لديه وقت فراغ فمن هو',
+            A: 'الكسول',
+            B: 'الفاشل',
+            C: 'وائل سبت',
+            D: 'وائل جمعه',
+            height_q:'97px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'97px',
+            height_D:'97px',
+            right_ansowr: '#D',
+        },{
+            q: 'ماهو عكس نجيب محفوظ',
+            A: 'نعطي محفوظ',
+            B: 'يطعن ظوفحم',
+            C: 'ظوفحميطعن',
+            D: 'طوفحم يطتعن',
+            height_q:'97px',
+            height_A:'97px',
+            height_B:'97px',
+            height_C:'97px',
+            height_D:'97px',
+            right_ansowr: '#A',
+        },{
+            q: 'لماذا يسبح الفيل بالشورت الأحمر',
+            A: 'الاخضر في الغساله',
+            B: 'لا يسبح',
+            C: 'لديه أحمر',
+            D: 'الاصفر في الغساله',
+            height_q:'97px',
+            height_A:'130px',
+            height_B:'97px',
+            height_C:'97px',
+            height_D:'130px',
+            right_ansowr: '#nothing',
+        },{
+            q: 'كيف تكلم الأبكم',
+            A: 'بالأشاره',
+            B: 'باللمس',
+            C: 'الكتابة',
+            D: 'لا يتواصل',
+            height_q:'55px',
+            height_A:'55px',
+            height_B:'55px',
+            height_C:'55px',
+            height_D:'97px',
+            right_ansowr: '#nothing',
+        },
+
+
+        ]
+        let old_image_place = null
+        let old_arabic_place = null
+        let old_image = null
+        let old_arabic = null
+        let THE_NUM = null
+        var counter;
+        var old_Questions = ''
+        let one_Gamer = true;
+        let G
+        let Q_G
+        let START = false
+        let G_or_Q_G
+        let Reverse = false
+        var tem_Questions
+        let lamp = true
+        var harvest = new Audio('voice/harves.mp3')//wav is also supported
+
+
+
+
+
+
+
+
+        // SOUNDS.
+        function Click_sound(event ,sentence){
+            if(event.target.value.length < sentence ){
+                var snd = new Audio('harvest_deleting.mp3')//wav is also supported
+                snd.play()//plays the sound
+            }
+            else{
+                var snd = new Audio('harvest_typing.mp3')//wav is also supported
+                snd.play()//plays the sound
+            }
+        }
+
+
+
+
+
+        function sound(){
+            if (Staition != 'Last_page'){
+                var snd = new Audio('gutcha.mp3')//wav is also supported
+                snd.play()//plays the sound
+            }
+
+       }
+
+       function Sound_paper(){
+
+        if (lamp == true){
+            var snd = new Audio('voice/open_paper_voice.mp3')//wav is also supported
+            snd.play()//plays the sound
+        }
+
+   }
+
+
+//  THE CHNGE EVERY SECOND.
+
+
+
+
+
+// THE HOME PAGE.
+
+            function Home(){
+                //TYPING.
+                const Typing = (event, limit, variable,latter) => {
+                    if(event == 'latter'){
+                        event.target.value = latter
+                    }
+                    console.log(`The Limit is: ${limit}`)
+                    console.log(`The Limit is: ${state.name}`)
+
+
+                    if(parseInt(state[variable].length) <= limit || event.target.value.length < state[variable].length){
+                        Click_sound(event, state[variable].length)
+
+                        setstate({
+                            ...state,
+                            [variable]: event.target.value
+                        })
+                        setcaution({
+                            ...state,
+                            long:""
+                        })
+                    }else {
+
+                    setcaution({
+                            ...state,
+                            long: '! الحد الأقصى للأحروف'
+                        })
+                }
+                console.log(`${variable} =` +state[variable])
+                }
+
+
+                // MOVE_ARROW.
+                function St_lfarrow(){
+                    document.querySelector('#left_arrow').src='left_arrow.png'
+                    document.querySelector('#left_arrow').style.animationName= 'lfarrow'
+
+                }
+                //WHIET ARROW
+                function White_left(){
+                    document.querySelector('#left_arrow').src='left_arrow_white.png'
+                    setTimeout(()=>{document.querySelector('#left_arrow').src='left_arrow.png'}, 200);
+                }
+                function Re_lfarrow(){
+                    let left_arrow = document.querySelector('#left_arrow')
+
+                    left_arrow.style.animationName= 'relfarrow'
+                }
+
+
+                function Re_riarrow(){
+                    let right_arrow = document.querySelector('#right_arrow')
+
+                    right_arrow.style.animationName= 'reriarrow'
+                }
+                 //WHIET ARROW
+                 function White_right(){
+                    document.querySelector('#right_arrow').src='right_arrow_white.png'
+                    setTimeout(()=>{document.querySelector('#right_arrow').src='right_arrow.png'}, 200);
+                }
+                function St_riarrow(){
+                    let right_arrow = document.querySelector('#right_arrow')
+
+                    right_arrow.style.animationName= 'riarrow'
+                }
+                // RE NAMES.
+                function Re_names(){
+            document.querySelector('#name_word').style.animationName= 'rename_word';
+            document.querySelector('#input_name').style.animationName= 'reinput_name';
+            document.querySelector('#plus_icon').style.animationName= 'replus_icon';
+            document.querySelector('#div_start').style.animationName= 'restart_button';
+            document.querySelector('#names_place').style.animationName= 'renames_place';
+
+        }
+        function St_names(){
+            setstate({
+                ...state,
+                name: ""
+            })
+            document.querySelector('#name_word').style.animationName= 'name_word';
+            document.querySelector('#input_name').style.animationName= 'input_name';
+            document.querySelector('#plus_icon').style.animationName= 'plus_icon';
+            document.querySelector('#div_start').style.animationName= 'start_button';
+            document.querySelector('#names_place').style.animationName= 'names_place';
+
+        }
+
+            // RE TITLE
+            function Re_title(){
+                document.querySelector('#title_img_seen').style.animationName = 'reseen'
+                document.querySelector('#title_img_question').style.animationName= 'requestion'
+                document.querySelector('#title_sooaal').style.animationName = 'resooaal'
+                document.querySelector('#me').style.animationName = 'reclick'
+                document.querySelector('#play_button').style.animationName = 'reclick'
+            }
+
+            function St_title(){
+                document.querySelector('#title_img_seen').style.animationName = 'seen'
+                document.querySelector('#title_img_question').style.animationName= 'question'
+                document.querySelector('#title_sooaal').style.animationName = 'sooaal'
+                document.querySelector('#me').style.animationName = 'click'
+                document.querySelector('#play_button').style.animationName = 'click'
+            }
+            function righty_righty(){
+                document.querySelector('#input_container').style.animationName = "righty_righty_input_container"
+                document.querySelector('#header').style.animationName = "righty_righty_header"
+                document.querySelector('#ansowrs').style.animationName =" righty_righty_ansowrs"
+            }
+                function righty(){
+                    document.querySelector('#input_container').style.animationName = "righty_input_container"
+                    document.querySelector('#header').style.animationName = "righty_header"
+                    document.querySelector('#ansowrs').style.animationName =" righty_ansowrs"
+                }
+
+            function lefty_lefty(){
+                document.querySelector('#input_container').style.animationName = "lefty_lefty_input_container"
+                document.querySelector('#header').style.animationName = "lefty_lefty_header"
+                document.querySelector('#ansowrs').style.animationName =" lefty_lefty_ansowrs"
+            }
+            function q_static(){
+                document.querySelector('#input_container').style.animationName = "nothing"
+                document.querySelector('#header').style.animationName = "nothing"
+                document.querySelector('#ansowrs').style.animationName ="nothing"
+            }
+            function lefty(){
+                document.querySelector('#input_container').style.animationName = "lefty_input_container"
+                document.querySelector('#header').style.animationName = "lefty_header"
+                document.querySelector('#ansowrs').style.animationName =" lefty_ansowrs"
+            }
+
+            // BETWEEN ANIMATIONS.
+
+            function lefty_between(){
+                document.querySelector('#between').style.animationName = 'lefty_between'
+            }
+            function lefty_lefty_between(){
+                document.querySelector('#between').style.animationName = 'lefty_lefty_between'
+            }
+            function righty_between(){
+                document.querySelector('#between').style.animationName = 'righty_between'
+            }
+            function righty_righty_between(){
+                document.querySelector('#between').style.animationName = 'righty_righty_between'
+                document.querySelector('#ana_div').style.animationName = 'righty_ana_div'
+            }
+            function between_static(){
+                document.querySelector('#between').style.animationName = 'nothing'
+            }
+
+
+            // LAST Q PAGE.
+            function righty_last_page(){
+                document.querySelector('#properties').style.animationName = 'righty_properties'
+                document.querySelector('#hexagons').style.animationName = 'righty_silver'
+                document.querySelector('#div_start_q').style.animationName = 'righty_start_q'
+                document.querySelector('#golden_hexagon').style.animationName = 'righty_golden'
+            }
+            function righty_righty_last_page(){
+                document.querySelector('#properties').style.animationName = 'righty_righty_properties'
+                document.querySelector('#hexagons').style.animationName = 'righty_righty_silver'
+                document.querySelector('#div_start_q').style.animationName = 'righty_righty_start_q'
+                document.querySelector('#golden_hexagon').style.animationName = 'righty_righty_golden'
+            }
+
+            function lefty_lefty_last_page(){
+                document.querySelector('#properties').style.animationName = 'lefty_lefty_properties'
+                document.querySelector('#hexagons').style.animationName = 'lefty_lefty_silver'
+                document.querySelector('#div_start_q').style.animationName = 'lefty_lefty_start_q'
+                document.querySelector('#golden_hexagon').style.animationName = 'lefty_lefty_golden'
+            }
+            function pro_static(){
+                document.querySelector('#properties').style.animationName = 'nothing'
+                document.querySelector('#hexagons').style.animationName = 'nothing'
+                document.querySelector('#div_start_q').style.animationName = 'nothing'
+                document.querySelector('#golden_hexagon').style.animationName = 'nothing'
+            }
+
+            function Gamer_machine(){
+                    console.log('GAMER-MACHINE')
+                    let text = 'Gamer'
+                    //MAKE THE ANSWORS CLICKABLLE
+                    document.querySelector('#nothing').style.pointerEvents = 'auto'
+                    document.querySelector('#q').style.pointerEvents = 'auto';
+                    document.querySelector('#A').style.pointerEvents = 'auto';
+                    document.querySelector('#B').style.pointerEvents = 'auto';
+                    document.querySelector('#C').style.pointerEvents = 'auto';
+                    document.querySelector('#D').style.pointerEvents = 'auto';
+                    // GET THE Players array.
+                    Finder()
+                     // THE NEW GAMER.
+           for(let i = 0 ; i < Object.keys(Players).length ; i++){
+            // THE FIREST GAME.
+            if (Gamer == null ){
+                if(Q_G + 2 > Object.keys(Players).length){
+                    Gamer = Players[0].id
+                    Gamer_file = Players[0]
+                    G = 0
+                    break;
+                }
+                Gamer = Players[Q_G + 1].id
+                Gamer_file = Players[Q_G + 1]
+                G = Q_G + 1
+                break;
+                // IF TI'S NOT.
+            }else{
+                var tem
+                    if(one_Gamer == false){
+                        Q_Gamer_machine('G_machine')
+                        Gamer = null
+                        return
+                    }
+                    if (G + 2 >  Object.keys(Players).length){
+                        tem = G
+                        G = -1
+                    }
+                     if (Players[G + 1].id == Q_Gamer && one_Gamer == true){
+                        one_Gamer = false
+                        text = 'Gamer_Q'
+                        G = tem
+                        break;
+                     }else{
+                        G = G + 1
+                        Gamer = Players[G].id
+                        Gamer_file = Players[G]
+                        break;
+                    }
+        }
+    }
+                    Reset_pro()
+                    console.log('Q_Gamer: '+Q_Gamer)
+                    console.log('Gamer: ' + Gamer)
+                    console.log('Gamer_file: ')
+                    console.log(Gamer_file)
+                        Between_Game(`${text}`)
+            }
+
+
+
+
+
+
+
+
+
+            // FINLY THE GAME PLAY.
+            function Q_Gamer_machine(where){
+                console.log('START-GAME')
+                one_Gamer = true
+                for(let x = 0 ; x < Object.keys(Players).length ; x++){
+                    if(Q_Gamer == null ){
+                        Q_Gamer = Players[0].id
+                        Q_Gamer_file = Players[0]
+                        break;
+                    }else if(Q_Gamer == Players[x].id ){
+                        if(x + 1 < Object.keys(Players).length ){
+                            Q_Gamer = Players[x + 1].id
+                            Q_Gamer_file = Players[x + 1]
+                            break;
+                        }else{
+                            Q_Gamer = Players[0].id
+                            Q_Gamer_file = Players[0]
+                            break;
+                        }
+                    }
+
+
+            }
+            if(where != 'names'){
+            Between_Game('Q_G_machine')
+            }
+            console.log('Q_Gamer: '+Q_Gamer)
+            console.log('Gamer: ' + Gamer)
+            console.log('Gamer_file: ')
+            console.log(Gamer_file)
+            }
+
+
+            function Finder(){
+                Q_G = null
+                    for (let i = 0; i < Object.keys(Players).length; i++){
+                        if(Players[i].id == Q_Gamer_file.id){
+                            Q_G = i
+                        }
+                    }
+                    console.log('Q_G = ' + Q_G)
+                    G = null
+                    if (Gamer !=null){
+                    for (let i = 0; i < Object.keys(Players).length; i++){
+                        console.log('Players_id: '+Players[i].id + '  Gamer_id: '+ Gamer)
+                        if(Players[i].id == Gamer){
+                            G = i
+                        }
+                    }
+                    }
+                    console.log('G_FINDER = ' + G)
+            }
+
+
+
+
+
+             // LAST PAGE IN Q.
+
+
+             function Back_front(Question){
+                console.log('HERE WE ARE AGAIN IN FRONT')
+                Staition = 'Back_front'
+                righty_righty_last_page()
+                setcaution({
+                    ...state,
+                    long:''
+                })
+                St_riarrow()
+                document.querySelector('#golden_hexagon').addEventListener('animationend', function(){
+                    if(Staition == 'Back_front'){
+                        righty()
+                        console.log(Staition)
+                        if(Question == 'nothing'){
+                            console.log(`${numbers[Questions.length]}` , Questions.length , Questions[Questions.length - 1])
+                            New_info(`${numbers[Questions.length]}` , Questions.length , Questions[Questions.length - 1],'not_long')
+                        }else{
+
+                            New_info(`${numbers[Question.id]}` , Question.id , Question,'long')
+                        }
+                        console.log( Questions[Questions.length])
+
+                        document.querySelector('#the_q_place').append(document.querySelector('#input_container'))
+                        document.querySelector('#right_arrow').style.display='block'
+                        document.querySelector('#q_page').style.display = 'block'
+                        document.querySelector('#between').style.display = 'none'
+                        document.querySelector('#pro').style.display = 'none'
+                    }
+                })
+            }
+
+
+             function Last_page(){
+                lamp = false
+                setcaution({
+                    ...state,
+                    long:''
+                })
+                console.log('You Arrived To The Last Q Page Congratulation')
+                Staition = 'Last_page'
+                righty_last_page()
+                lefty_lefty()
+                document.querySelector('#header').addEventListener('animationend', function(){
+                    if(Staition == 'Last_page'){
+                        document.querySelector('#q_page').style.display = 'none'
+                        document.querySelector('#pro_countdown').style.display = 'none'
+                        console.log('HERE IT GET 1')
+                        document.querySelector('#p1_image').style.display = 'none'
+                        document.querySelector('#p2_image').style.display = 'none'
+                        document.querySelector('#p3_image').style.display = 'none'
+                        if(Q_Gamer_file.p1 !=''){
+                            document.querySelector('#p1_image').style.display = 'block'
+                        }
+                        if(Q_Gamer_file.p2 !=''){
+                            document.querySelector('#p2_image').style.display = 'block'
+                        }
+                        if(Q_Gamer_file.p3 !=''){
+                            document.querySelector('#p3_image').style.display = 'block'
+                        }
+                        document.querySelector('#pro').style.display = 'block'
+                        setstate({
+                            ...state,
+                            lefty_arrow: event => Back_front('nothing'),
+                        })
+                        Re_riarrow()
+                        document.querySelector('#right_arrow').addEventListener('animationend', function(){
+                            if(Staition == 'Last_page'){
+                                console.log(Staition)
+
+                            document.querySelector('#right_arrow').style.display = 'none'
+                            }
+                        })
+                    }
+                })
+            }
+
+
+
+
+
+
+
+            // BEFORE NAMES PAGE.
+            function Before_names(){
+
+                // MAKE Q ONLY READ.
+                document.querySelector('#q').readOnly= true
+
+                setcaution({
+                    ...state,
+                    long: ''
+                })
+                console.log('....YOU ARE WELCOME ALWAYES TO THE BETWEEN BEFORE NAMES PAGE....')
+                Staition = 'Before_names'
+        console.log(Staition)
+        righty_righty()
+
+    document.querySelector('#ansowrs').addEventListener('animationend', function(){
+        if(Staition == 'Before_names'){
+            document.querySelector('#q').style.height = '151px'
+            setstate({
+                ...state,
+                q: 'هل تريد العودة إلى صفحه الاسماء, سوف تحذف الأسئلة المكتوبة حاليا',
+            })
+            document.querySelector('#input_container').style.animationName = '';
+            document.querySelector('#between').style.animationName = 'lefty_between'
+            document.querySelector('#qplace').append(document.querySelector('#input_container'))
+            document.querySelector('#title').style.display = 'none'
+            document.querySelector('#names').style.display = 'none'
+            document.querySelector('#q_page').style.display = 'none'
+            console.log('HERE ITS HAPPEN 3 ')
+            document.querySelector('#between').style.display = 'block'
+            document.querySelector('#qplace').style.display = 'block'
+            document.querySelector('#choseing').style.display = 'block'
+            document.querySelector('#announcement').style.display = 'none'
+            document.querySelector('#ana_div').style.display = 'none'
+        }
+    })
+            }
+
+
+
+            // BACK TO THE Q PAGE.
+
+            function Back(){
+                console.log('HERE WE ARE AGAIN')
+                Staition = 'Back'
+                lefty_lefty_between()
+                document.querySelector('#q').readOnly= false
+
+                document.querySelector('#between').addEventListener('animationend', function(){
+                    if(Staition == 'Back'){
+                        lefty()
+                        console.log(Staition)
+                        New_info('١' , 1 , Questions[0],'not_long')
+                        document.querySelector('#the_q_place').append(document.querySelector('#input_container'))
+                        document.querySelector('#q_page').style.display = 'block'
+                        document.querySelector('#between').style.display = 'none'
+                    }
+                })
+
+            }
+
+
+
+            let qNames = function Q_names(){
+                lamp = true
+                document.querySelector('#q').readOnly= false
+                setcaution({
+                    ...state,
+                    long: ''
+                })
+
+                // THE INPUT NAME DONT EQUAL STATE.NAME SOME TIME.
+
+                    state.name= ''
+
+                console.log('LOOK AT MEEEE HEEEERREE' + state.name)
+                righty_righty_between()
+                St_names()
+                setstate({
+                    ...state,
+                    q: '',
+                    A: '',
+                    B: '',
+                    C: '',
+                    D: '',
+                    number: '١',
+                    lefty_arrow: titlePage
+                })
+                Staition = 'names'
+                console.log(Staition)
+            document.querySelector('#between').addEventListener('animationend', function(){
+                if(Staition == 'names'){
+
+            document.querySelector('#between').style.display = 'none'
+            document.querySelector('#title').style.display = 'none'
+            document.querySelector('#names').style.display = 'block'
+            document.querySelector('#q_page').style.display = 'none'
+            Re_riarrow()
+            Staition = 'Re_riarrow'
+            console.log(Staition)
+            document.querySelector('#right_arrow').addEventListener('animationend', function(){
+                if(Staition == 'Re_riarrow'){
+                document.querySelector('#right_arrow').style.display = 'none'
+            }
+            })
+
+
+                }
+            })
+
+            }
+
+            function Q_page(){
+                console.log('WHELCOME TO Q PAGE :)')
+                lamp = true
+                //REVERSE PRO.
+                if(Reverse == true){
+                    var tem = []
+                    for(let i = Object.keys(Players).length - 1; i > -1 ; i--){
+                        tem.push(Players[i])
+                    }
+                    Players = tem
+                    Reverse = false
+                }
+
+                //CLEAN THE PRO ON THE PLAYERS.
+                for(let i = 0 ; i < Object.keys(Players).length; i++){
+                    Players[i].pro = ""
+                }
+
+                Finder()
+                G_or_Q_G = Q_G
+                for(let i = 0 ; i < Object.keys(Players).length; i++){
+                    Players[i].q = ''
+                }
+                // RETURN THE HEADER TO HIS PLACE.
+                Header_place()
+                //TO MAKE ANSOWRING FUNCTION ANACTIVE.
+                START = false
+                        document.querySelector('#A_sign').style.pointerEvents = 'auto'
+                        document.querySelector('#B_sign').style.pointerEvents = 'auto'
+                        document.querySelector('#C_sign').style.pointerEvents = 'auto'
+                        document.querySelector('#D_sign').style.pointerEvents = 'auto'
+                // MAKE THE QUESTIONS AND THE ANSOWRS NOT READONLY.
+                document.querySelector('#q').readOnly = false;
+                document.querySelector('#A').readOnly = false;
+                document.querySelector('#B').readOnly = false;
+                document.querySelector('#C').readOnly = false;
+                document.querySelector('#D').readOnly = false;
+                /// CAOUTION YOU HAVE TO CHANGE THE NUMBER 2 IF YOU WANT TO MAKE MORE PROPERTIES \\\
+                document.querySelector('#q_image_div').style.display = 'block'
+                document.querySelector('#q_image').style.display = 'none'
+                console.log(Q_Gamer_file)
+                for(let i = 1 ; i < 3 ; i++){
+                    if(Q_Gamer_file.p1.name == 'OPINION'|| Q_Gamer_file.p2.name == 'OPINION'|| Q_Gamer_file.p3.name == 'OPINION'){
+                        document.querySelector('#q_image').style.display = 'block'
+                    }
+                }
+                // RETURN THE SIZES AS IT WAS.
+                document.querySelector('#q').style.height ='55px'
+                document.querySelector('#A').style.height ='55px'
+                document.querySelector('#B').style.height ='55px'
+                document.querySelector('#C').style.height ='55px'
+                document.querySelector('#D').style.height ='55px'
+                right_answer = '#nothing'
+                right_id = null
+                Questions = [];
+                let header = Players.length
+                setcaution({
+                    ...state,
+                    long: ''
+                })
+                // CHANGE THE LEFT ARROW FUNCTION .
+                for(let i = 0 ; i < Players.length - 1 ; i++){
+                    let Question = {
+                        id: i + 1,
+                        q: '',
+                        A: '',
+                        B: '',
+                        C: '',
+                        D: '',
+                        height_q: '55px',
+                        height_A: '55px',
+                        height_B: '55px',
+                        height_C: '55px',
+                        height_D: '55px',
+                        right_answer:'#nothing',
+                        right_id: null
+
+
+                    }
+                    Questions.push(Question)
+                }
+                console.log(Questions)
+
+
+                setstate({
+                    ...state,
+                    lefty_arrow: event => New_q('left'),
+                    p1_image:Q_Gamer_file.p1.image,
+                    arabic1:Q_Gamer_file.p1.arabic,
+                    num1:Q_Gamer_file.p1.num,
+                    p2_image:Q_Gamer_file.p2.image,
+                    arabic2:Q_Gamer_file.p2.arabic,
+                    num2:Q_Gamer_file.p2.num,
+                    p3_image:Q_Gamer_file.p3.image,
+                    arabic3:Q_Gamer_file.p3.arabic,
+                    num3:Q_Gamer_file.p3.num,
+                    number:'١',
+                    q:'',
+                    A:'',
+                    B:'',
+                    C:'',
+                    D:'',
+
+                })
+                Chose('#nothing','show')
+                Staition = 'Q'
+                St_riarrow()
+                St_lfarrow()
+                lefty()
+                lefty_lefty_between()
+                console.log(Staition)
+                document.querySelector('#the_q_place').append(document.querySelector('#input_container'))
+                document.querySelector('#header').style.animationDuration = '0.5s'
+            document.querySelector('#between').addEventListener('animationend', function(){
+                if(Staition == 'Q'){
+            document.querySelector('#title').style.display = 'none'
+            document.querySelector('#between').style.display = 'none'
+            document.querySelector('#pro_countdown').style.display = 'none'
+            document.querySelector('#div_start_q').style.display = 'block'
+            document.querySelector('#q_page').style.display = 'block'
+            document.querySelector('#arrows').style.display = 'block'
+            document.querySelector('#right_arrow').style.display = 'block'
+
+
+                }
+            })
+
+            }
+                 // MOVE TO NAMES PAGE
+             function Names(){
+                console.log('Welcome to Names')
+                setstate({
+                    ...state,
+                    lefty_arrow: titlePage
+                })
+                Re_title()
+                St_names()
+                St_lfarrow()
+                Staition = 'Names'
+                console.log(Staition)
+                document.querySelector('#play_button').addEventListener('animationend', function(){
+                    if(Staition == 'Names'){
+                        console.log(Staition)
+                    document.querySelector('#title').style.display = 'none'
+                    document.querySelector('#names').style.display = 'block'
+                    document.querySelector('#left_arrow').style.display = 'block'
+
+
+                    }
+                })
+
+
+            }
+            function Re_programer(){
+                harvest.loop = false
+                harvest.pause()
+                document.querySelector('#db_games').style.animationDuration='2s'
+                document.querySelector('#me_holder').style.animationName='Re_me_holder'
+                document.querySelector('#logo_holder').style.animationName='Re_logo_holder'
+                document.querySelector('#db_games').style.animationName='Re_db_games'
+                document.querySelector('#what_is_seen_sooal').style.animationName = 'Re_what'
+                document.querySelector('#hr2').style.animationName='Re_hr2'
+
+                White_left()
+                console.log('-Welcome-To-Title-')
+                //WHITE ARROW.
+                Re_lfarrow()
+                St_title()
+
+            Staition = 'Re_programer'
+            console.log(Staition)
+            document.querySelector('#what_is_seen_sooal').addEventListener('animationend', function(){
+                if(Staition == 'Re_programer'){
+
+            document.querySelector('#title').style.display = 'block'
+            document.querySelector('#programer').style.display = 'none'
+            document.querySelector('#left_arrow').style.display = 'none'
+
+                }
+            })
+            setstate({
+                ...state,
+                lefty_arrow: titlePage
+            })
+            }
+             function Programer(){
+                setstate({
+                    ...state,
+                    lefty_arrow: Re_programer
+                })
+                document.querySelector('#db_games').style.animationDuration='1s'
+                document.querySelector('#speach1_inpage').innerHTML = ''
+                document.querySelector('#speach2_inpage').innerHTML = ''
+                document.querySelector('#speach3_inpage').innerHTML = ''
+                document.querySelector('#detiles').style.display = 'none'
+                document.querySelector('#smicolen').style.display = 'none'
+                document.querySelector('#smicolen1').style.display = 'none'
+                document.querySelector('#smicolen2').style.display = 'none'
+                document.querySelector('#smicolen3').style.display = 'none'
+                document.querySelector('#speach2_inpage_en').innerHTML = ''
+                document.querySelector('#speach3_inpage_en').innerHTML = ''
+                document.querySelector('#calendar_number').style.display = 'none'
+                document.querySelector('#phone_number').style.display = 'none'
+                document.querySelector('#email_word').style.display = 'none'
+                document.querySelector('#name_word_2').style.display = 'none'
+                document.querySelector('#left_arrow').style.display = 'none'
+                document.querySelector('#db_games').style.display = 'none'
+                document.querySelector('#what_is_seen_sooal').style.animationName = ''
+                document.querySelector('#me_holder').style.animationName='me_holder'
+                document.querySelector('#logo_holder').style.animationName='logo_holder'
+                document.querySelector('#db_games').style.animationName='db_games'
+                document.querySelector('#hr2').style.animationName='hr2'
+
+
+
+
+
+
+
+
+                Re_title()
+                St_lfarrow()
+                Staition = 'Programer'
+                console.log(Staition)
+                document.querySelector('#play_button').addEventListener('animationend', function(){
+                    if(Staition == 'Programer'){
+                        console.log(Staition)
+                        var snd = new Audio('move_effect.mp3')//wav is also supported
+                        snd.play()
+                    document.querySelector('#title').style.display = 'none'
+                    document.querySelector('#programer').style.display = 'block'
+
+
+                    }
+                })
+                document.querySelector('#me_holder').addEventListener('animationend', function(){
+                    if(Staition == 'Programer'){
+                        harvest.play()
+                        harvest.loop = true
+                    document.querySelector('#db_games').style.display = 'block'
+                    }
+                })
+                document.querySelector('#db_games').addEventListener('animationend', function(){
+                    document.querySelector('#detiles').style.display = 'block'
+                })
+                document.querySelector('#name_icon').addEventListener('animationend', function(){
+                    if(Staition == 'Programer'){
+                document.querySelector('#smicolen').style.display = 'block'
+                document.querySelector('#smicolen1').style.display = 'block'
+                document.querySelector('#smicolen2').style.display = 'block'
+                document.querySelector('#smicolen3').style.display = 'block'
+                    }
+                        })
+                        document.querySelector('#smicolen3').addEventListener('animationend', async function(){
+                            if(Staition == 'Programer'){
+                            document.querySelector('#name_word_2').style.display = 'block'
+                        await new Promise(resolve => setTimeout(resolve, 700));
+                        document.querySelector('#email_word').style.display = 'block'
+                        await new Promise(resolve => setTimeout(resolve, 700));
+                        document.querySelector('#phone_number').style.display = 'block'
+                        await new Promise(resolve => setTimeout(resolve, 700));
+                        document.querySelector('#calendar_number').style.display = 'block'
+                            }
+
+                        })
+                        document.querySelector('#name_word_2').addEventListener('animationend', function(){
+                            if(Staition == 'Programer'){
+                    let speach1_inpage = ''
+                    Speach('speach1_inpage',speach1_inpage,' سين سؤال هيا لعبة متصفح يمكنك أن تسأل أصدقائك أو عائلتك أسئلة شخصية أو أسئلة في موضوع معين مثل كورة القدم, الأفلام , ...إلخ')
+                            }
+                        })
+                    }
+
+
+
+
+            async function Speach(state,inpage , speach){
+                let speach1 = speach
+                for(let i = 0; i < speach1.length; i++){
+                    await new Promise(resolve => setTimeout(resolve, 150));
+                    inpage = inpage + speach1[i]
+                    document.querySelector(`#${state}`).innerHTML = inpage
+                    if(speach1[i] == 'ح'|| speach1[i] == ',' || speach1[i] == '.'|| i == 8 || i == 23|| i == 45|| i == 48|| i == 55|| i == 67|| i == 70|| i == 90|| i == 94){
+                        await new Promise(resolve => setTimeout(resolve, 250));
+                    }else if( state == 'speach1_inpage'){
+                        if( i == 8 || i == 23|| i == 45|| i == 48|| i == 55|| i == 67|| i == 70|| i == 90|| i == 94){
+                            await new Promise(resolve => setTimeout(resolve, 250));
+                        }
+                    }
+                    var snd = new Audio('harvest_typing.mp3')//wav is also supported
+                    snd.play()//plays the sound
+                    console.log(inpage)
+                }
+                if(state == 'speach1_inpage'){
+                    let speach2_inpage = ''
+                    Speach('speach2_inpage',speach2_inpage,' هذا المشروع هوا المشروع النهائي لي دورة')
+
+                }else if(state== 'speach2_inpage' ){
+                    let speach2_inpage = ''
+                    Speach('speach2_inpage_en',speach2_inpage,'Harvard CS50W')
+
+
+                }else if(state == 'speach2_inpage_en'){
+                    let speach2_inpage = ''
+                    Speach('speach3_inpage',speach2_inpage,'كتبت بي ')
+
+                }else if(state == 'speach3_inpage'){
+                    let speach2_inpage = ''
+                    Speach('speach3_inpage_en',speach2_inpage,'.SASS, HTML, REACT.JS')
+                    document.querySelector('#left_arrow').style.display = 'block'
+                    return
+                }
+            }
+
+
+
+            let titlePage = function Titel_page(event){
+                lamp = true
+                White_left()
+                console.log('-Welcome-To-Title-')
+                //WHITE ARROW.
+                Re_names()
+
+                Re_lfarrow()
+                St_title()
+
+            Staition = 'Title'
+            console.log(Staition)
+            document.querySelector('#plus_icon').addEventListener('animationend', function(){
+                if(Staition == 'Title'){
+
+            document.querySelector('#title').style.display = 'block'
+            document.querySelector('#names').style.display = 'none'
+            document.querySelector('#left_arrow').style.display = 'none'
+
+                }
+            })
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+            // ADDIN NEW PLAYER TO THE GAME.
+            function New_Name() {
+
+
+                let Player ={}
+                if(state.name != ''){
+                    setcaution({
+                        ...state,
+                        long: ''
+                    })
+                    //CREATE THE div.
+                const name = state.name
+                // PLAYER ID.
+                x++
+
+
+                //PLAYER DICTIONRY.
+                Player.name = state.name;
+                Player.id = x;
+                Player.q = '';
+                Player.p1 =properties[Math.floor(Math.random() * properties.length)];
+                Player.p2 = ''
+                Player.p3 = ''
+                Player.score = 0
+                Player.pro = ""
+
+
+                Players.push(Player)
+                console.log(Player)
+                console.log(Players)
+                let new_player = document.createElement('div')
+                new_player.setAttribute("id", `player_id${x}`);
+                new_player.setAttribute("data-player_id",`${x}`);
+                new_player.innerHTML = `<li><h2>${state.name}</h2></li>`
+                document.querySelector('#ol_names').append(new_player)
+                setstate({
+                    ...state,
+                    name:''
+                })
+                //CREATE THE IMAGE.
+                let minus_icon = document.createElement('div')
+                minus_icon.setAttribute("id", 'minus_icon');
+                minus_icon.innerHTML = '<h1 style="color: white; font-size: 13.333333333333334vw; position:relative; top: -4.8vw; left:-1.0666666666666667vw">-</h1>'
+                minus_icon.style.display = 'flex'
+                new_player.append(minus_icon)
+                console.log(Players.length)
+                //DISABEL NAMES.
+                if (Players.length >= 2 && document.querySelector('#button_stop')!= null){
+                    document.querySelector('#button_stop').setAttribute("id", 'button_start');
+                    document.querySelector('#button_start').disabled= false
+                }
+
+                //DELETING PLAYER.
+
+                minus_icon.onclick = function(){
+
+                    let id = new_player.dataset.player_id
+                    console.log( id)
+                    document.querySelector(`#player_id${id}`).remove()
+                    for(let i = 0 ; i < Players.length ; i++){
+                        let player = Players[i]
+                        console.log( id)
+                        if(parseInt(player.id) == parseInt(new_player.dataset.player_id)){
+                            delete Players[i]
+                            Players = Players.filter(elm => elm);
+                            console.log( 'The Player Deleted:' + ' ' + player.name)
+                        }
+                    }
+                    console.log(Players)
+                    //DISABEL NAMES.
+                    if(Players.length == 1 && document.querySelector('#button_start') !=null){
+                        document.querySelector('#button_start').setAttribute("id", 'button_stop');
+                        document.querySelector('#button_stop').disabled= true
+                    }
+                }
+                }else{
+                    setcaution({
+                        ...state,
+                        long: 'عليك اضافه اسم'
+                    })
+                }
+
+                }
+
+                const textAreaAdjust= ( i, input) => {
+                    console.log(input)
+                    if(state[input].length > i){
+                        console.log(state[input].length+ '1')
+                        console.log(state[input] + '1')
+                        document.querySelector(`#${input}`).style.height = "1px";
+                        document.querySelector(`#${input}`).style.height = (25+document.querySelector(`#${input}`).scrollHeight)+"px";
+                        know_line = 'I add'
+                    }else if (state[input].length < i && know_line == 'I add'){
+                        console.log(state[input].length+ '2')
+                        console.log(state[input]+ '2')
+                        know_line = ''
+                        document.querySelector(`#${input}`).style.height = "55px";
+                    }
+                  }
+
+                  function Chose(id,show){
+                    document.querySelector('#A_sign').style.color = 'limegreen'
+                    document.querySelector('#B_sign').style.color = 'limegreen'
+                    document.querySelector('#D_sign').style.color = 'limegreen'
+                    document.querySelector('#C_sign').style.color = 'limegreen'
+                    document.querySelector('#nothing').style.color = 'white'
+                    document.querySelector('#A').style.color = 'black'
+                    document.querySelector('#B').style.color = 'black'
+                    document.querySelector('#D').style.color = 'black'
+                    document.querySelector('#C').style.color = 'black'
+                    if(show == 'dont_show_up'){
+                        document.querySelector('#nothing').style.color = '#FFC90E'
+                    }else{
+
+
+                    document.querySelector(`${id}`).style.color = '#FFC90E'
+                    console.log(id)
+                    if (id !='#nothing'){
+                    document.querySelector(`${id}_sign`).style.color = '#FFC90E'
+                    }
+                }
+
+                document.querySelector('#nothing').style.textShadow = '-1px 1px 0 yellow, 1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow'
+                // // PRO CHANGING_2.
+                if(Players[G_or_Q_G].pro != "" && Players[G].pro != undefined){
+                    if(Players[G_or_Q_G].pro.name == 'DELETE_ANSOWR'){
+                        Delete_ansowr()
+                    }
+                }
+
+                    console.log(id)
+                    right_answer = id;
+                    console.log(right_answer)
+
+
+                  }
+
+
+
+
+
+
+
+
+
+
+                   function New_q(arrow){
+                    console.log('arrow: ' + arrow)
+                    let stop_new_info = true;
+                    var Questions_i = ''
+
+
+                    // IDENTFY THE STATES.
+                    state.q =  document.querySelector('#q').value
+                    state.A =  document.querySelector('#A').value
+                    state.B =  document.querySelector('#B').value
+                    state.C =  document.querySelector('#C').value
+                    state.D =  document.querySelector('#D').value
+                    state.number = document.querySelector('#header').innerHTML
+
+                    // CONVERT ARABIC NUMBERS TO ENGLISH NUMBERS.
+
+                       let collector = Ar_to_En(state.number)
+                        console.log('LISTENT TO THAT : ' + collector)
+
+                        // SAVE THE QUESTION IFORAMTIONS.
+                        collector = String(parseInt(collector) - 1)
+                        Save_info(collector)
+
+                         // ANIMATION FIRST.
+                         if(arrow == 'right'){
+                            lefty_lefty()
+                            White_right()
+
+                            // ADD ONE NUMBER.
+                            collector = String(parseInt(collector) + 2)
+                         }else{
+                            righty_righty()
+                            White_left()
+                         }
+                         // THE LAST Q.
+                         console.log('HERE IS THE Q  LENGTH : ' + Questions.length + ' HERE IS THE collector  LENGTH : ' + (parseInt(collector - 1)) )
+                        if(Questions.length  == parseInt(collector - 1) && arrow == 'right'){
+                            Last_page()
+                            return 0;
+                        }
+                        if((parseInt(collector) + 1) == 1 && arrow == 'left')
+                        {
+                            Before_names()
+                            return 0 ;
+                    }
+
+
+
+
+
+
+                        for(let i = 0 ; i < Object.keys(Questions).length ; i++){
+                            if(Questions[i].id == parseInt(collector)){
+                                console.log('collector:' + parseInt(collector))
+                                console.log('Questions:' +Questions[i].id)
+                                 Questions_i = Questions[i];
+                            }
+                        }
+                                 // CONVERT ENGLISH NUMBER TO ARABIC NUMBER.
+
+                                 let num = En_to_Ar(collector)
+
+                                 document.querySelector('#header').addEventListener('animationend', function(){
+                                 // GET THE NEW INFO DATA.
+                                 if(stop_new_info == true){
+                                    stop_new_info = false;
+                                New_info(num , collector,Questions_i,'not_long')
+                                //ANIMATION SECOND.
+                                if(arrow == 'right'){
+                                    lefty()
+                                 }else{
+                                    righty()
+                                 }
+                                }
+
+                                 })
+
+
+
+                    }
+
+                    function En_to_Ar(collector){
+                        let nagtive = false
+                        if(collector < 0){
+                            collector = collector * -1
+                            nagtive = true
+                        }
+                        collector = String(collector)
+                        let num = []
+                        for(let f = 0 ; f < collector.length ; f ++){
+                            num = num + (numbers[collector[f]])
+                         }
+                         console.log('The Ar Number: ' + num)
+                         if(nagtive == true){
+                            num = '-'+num
+                         }
+                         return num
+                    }
+
+                    function Ar_to_En(number){
+                        let collector = ''
+                    for(let x=0; x <  number.length ; x++){
+                            for(let i=0; i <  Object.keys(numbers).length ; i++){
+                                if(numbers[i] == number[x])
+                                {
+                                    collector = String(collector) + String((i))
+                                    break;
+                                }
+                            }
+                        }
+                        console.log('The En Numer: '+collector)
+                        return collector
+                    }
+
+
+
+                    // SAVE THE QUESTION INFORMATION.
+                    function Save_info(collector){
+                        Questions[collector].q = state.q
+                        Questions[collector].A = state.A
+                        Questions[collector].B = state.B
+                        Questions[collector].C = state.C
+                        Questions[collector].D = state.D
+                        Questions[collector].height_q = document.querySelector('#q').style.height == '' ? '55px': document.querySelector('#q').style.height
+                        Questions[collector].height_A = document.querySelector('#A').style.height == '' ? '55px': document.querySelector('#A').style.height
+                        Questions[collector].height_B = document.querySelector('#B').style.height == '' ? '55px': document.querySelector('#B').style.height
+                        Questions[collector].height_C = document.querySelector('#C').style.height == '' ? '55px': document.querySelector('#C').style.height
+                        Questions[collector].height_D = document.querySelector('#D').style.height == '' ? '55px': document.querySelector('#D').style.height
+                        Questions[collector].right_answer = right_answer
+                        Questions[collector].right_id = document.querySelector(`${right_answer}`).innerHTML
+                    }
+
+                    function New_info(ar_num,en_num ,Question,long_info){
+                        console.log('ar: ' + ar_num)
+                        console.log('en: ' + en_num)
+                        console.log('Question: ' + Question)
+
+                        // SAVE IN STATE AND THE LEFT ARROW FUNCTION.
+
+                            setstate({
+                                ...state,
+                                q: Question.q,
+                                A: Question.A,
+                                B: Question.B,
+                                C: Question.C,
+                                D: Question.D,
+                                number: ar_num,
+                                lefty_arrow: event => New_q('left')
+                            })
+
+                            document.querySelector('#header').innerHTML = ar_num
+                            console.log('left arrow to: New_q')
+                            console.log(long_info)
+                            setcaution({
+                                ...state,
+                                long:""
+                            })
+
+                            Chose( Question.right_answer,long_info)
+
+                            if(long_info == 'long'){
+                                setcaution({
+                                    ...state,
+                                    long:"عليك تعبئة جميع الفراغات"
+                                })
+
+                        }
+                        document.querySelector('#q').style.height = Question.height_q
+                         document.querySelector('#A').style.height = Question.height_A
+                       document.querySelector('#B').style.height =  Question.height_B
+                         document.querySelector('#C').style.height = Question.height_C
+                         document.querySelector('#D').style.height = Question.height_D
+                         console.log('The Questions:')
+                        console.log(Questions)
+                         console.log('The New Question:')
+                        console.log( Question)
+                    }
+
+
+                    //OPINION MACHINE.
+                    function Opinion(){
+                        let opinion = opinions[Math.floor(Math.random() * opinions.length)];
+                        console.log(opinion)
+                        Chose(opinion.right_ansowr,'show')
+                        if(Object.keys(opinions).length == 1){
+                            opinions = [{
+                                q: 'لايوجد',
+                                A: 'لايوجد',
+                                B: 'لايوجد',
+                                C: 'لايوجد',
+                                D: 'لايوجد',
+                                right_ansowr: '#nothing',
+                            }]
+                        }
+                        if(opinion.q != 'لايوجد'){
+                            for(let i = 0; i < Object.keys(opinions).length; i++ ){
+                                if(opinion == opinions[i]){
+                                delete opinions[i]
+                                opinions = opinions.filter(elm => elm);
+                                }
+                            }
+                        }
+                        let one = true
+                        /// CAOUTION YOU HAVE TO CHANGE THE NUMBER 2 IF YOU WANT TO MAKE MORE PROPERTIES \\\
+                        // THE VOICE.
+                        var snd = new Audio('voice/OPINION_voice.mp3')//wav is also supported
+                        snd.play()//plays the sound
+                        let num = 0;
+                        for(let i = 0 ; i < Object.keys(Players).length; i++){
+                            if(Q_Gamer == Players[i].id){
+                                num = i
+                            }
+                        }
+                        for(let i = 1 ; i < 3 ; i++){
+                            if(Q_Gamer_file.p1.name == 'OPINION' && one == true ){
+                                Players[num].p1 = ''
+                                Q_Gamer_file.p1 = ''
+                                setstate({
+                                    ...state,
+                                    p1_image: '',
+                                    arabic1: '',
+                                    q: opinion.q,
+                                    A: opinion.A,
+                                    B: opinion.B,
+                                    C: opinion.C,
+                                    D: opinion.D,
+                                })
+                                one = false
+                                document.querySelector('#p1_image').style.display = 'none'
+                            }
+
+                            else if ( Q_Gamer_file.p2.name == 'OPINION' && one == true ){
+                                Players[num].p2 = ''
+                                Q_Gamer_file.p2 = ''
+                                setstate({
+                                    ...state,
+                                    p2_image: '',
+                                    arabic2: '',
+                                    q: opinion.q,
+                                    A: opinion.A,
+                                    B: opinion.B,
+                                    C: opinion.C,
+                                    D: opinion.D,
+                                })
+                                one = false
+                                document.querySelector('#p2_image').style.display = 'none'
+                            }else if ( Q_Gamer_file.p3.name == 'OPINION' && one == true ){
+                                Players[num].p3 = ''
+                                Q_Gamer_file.p3 = ''
+                                setstate({
+                                    ...state,
+                                    p3_image: '',
+                                    arabic3: '',
+                                    q: opinion.q,
+                                    A: opinion.A,
+                                    B: opinion.B,
+                                    C: opinion.C,
+                                    D: opinion.D,
+                                })
+                                one = false
+                                document.querySelector('#p3_image').style.display = 'none'
+                            }
+                        }
+                        document.querySelector('#q').style.height = opinion.height_q
+                        document.querySelector('#A').style.height = opinion.height_A
+                        document.querySelector('#B').style.height = opinion.height_B
+                        document.querySelector('#C').style.height = opinion.height_C
+                        document.querySelector('#D').style.height = opinion.height_D
+                        document.querySelector('#q_image').style.display = 'none'
+                        for(let i = 1 ; i < 3 ; i++){
+                            if(Q_Gamer_file.p1.name == 'OPINION'|| Q_Gamer_file.p2.name == 'OPINION'|| Q_Gamer_file.p3.name == 'OPINION'){
+                                document.querySelector('#q_image').style.display = 'block'
+                            }
+                        }
+                            console.log(opinions)
+                        console.log('يااا حبيييبييي')
+                    }
+
+                    // REPLACE - IMAGE.
+                    function Replace(arabic_place,image_place,arabic,image,num ){
+                        console.log('You made somthing good')
+
+                        if(properties[num].name == 'OPINION'){
+                            setcaution({
+                                ...state,
+                                long: 'تستخدم خاصية كتابة سؤال في صفحه كتابة الاسئلة'
+                            })
+                        }else if ( properties[num].side == 'With' && Players[G_or_Q_G].id == Q_Gamer_file.id){
+                            setcaution({
+                                ...state,
+                                long: 'لا يمكنك أستخدام هذه الخاصية على الاعبين الآخرين'
+                            })
+                        }else{
+                            if(properties[num].side == 'Against' && Players[G_or_Q_G].id != Q_Gamer_file.id && G + 1 == Q_G || properties[num].side == 'Against' &&Players[G_or_Q_G].id != Q_Gamer_file.id && G + 1 == Object.keys(Players).length && Q_G == 0){
+                                setcaution({
+                                    ...state,
+                                    long: 'أنت أخر لاعب لا يمكنك أستخدام خاصية مضادة'
+                                })
+                                return
+                            }
+                            setcaution({
+                                ...state,
+                                long: ''
+                            })
+                            if (old_image_place != null && old_image_place!= image_place ){
+                               Return()
+                            }else if(old_image_place == image_place){
+                                Return()
+                                old_image_place = null
+                                THE_NUM = null
+                                return
+                            }
+                            old_image_place = image_place
+                            old_arabic_place = arabic_place
+                            old_image = image
+                            old_arabic = arabic
+                            THE_NUM = num
+                            document.querySelector('#golden_span').append(document.querySelector(`#${image}`))
+                            document.querySelector('#golden_arabic').append(document.querySelector(`#${arabic}`))
+                        }
+
+
+                    }
+
+
+                    // RETURN FROM GOLDEN TO SELVER.
+                    function Return(){
+                        console.log(old_image_place)
+                        console.log('RETURN THE PRO')
+                            console.log(`#old_image_place ` + old_image_place)
+                                console.log(`#old_arabic_place ` + old_arabic_place)
+                                console.log(`#old_image ` + old_image)
+                                console.log(`#old_arabic ` + old_arabic)
+                                if(old_image_place != null){
+                                    document.querySelector(`#${old_image_place}`).append(document.querySelector(`#${old_image}`))
+                                    document.querySelector(`#${old_arabic_place}`).append(document.querySelector(`#${old_arabic}`))
+                                }
+
+
+                    }
+                    // START TO SEND THE QUESTIONS.
+                    function Start(){
+                        lamp = false
+
+                       Questions
+                        for(let i = 0 ; i < Object.keys(Questions).length; i++){
+                            if(Questions[i].q == '' || Questions[i].A == '' ||Questions[i].B == '' ||Questions[i].C == '' ||Questions[i].D == ''){
+                                console.log('this question is not completed:')
+                                console.log(Questions[i])
+                                console.log(`${numbers[Questions[i].id]}` , Questions[i].id , Questions[i])
+
+                                Back_front(Questions[i])
+                                return
+                            }
+                        }
+                        console.log('Every Thing Is Fine.')
+
+                        // TO MAKE ANSOWRING FUNCTION ACTIVE.
+                        START = true
+                        document.querySelector('#A_sign').style.pointerEvents = 'none'
+                        document.querySelector('#B_sign').style.pointerEvents = 'none'
+                        document.querySelector('#C_sign').style.pointerEvents = 'none'
+                        document.querySelector('#D_sign').style.pointerEvents = 'none'
+                        pro_static()
+                        console.log(tem)
+                        document.querySelector('#q_image_div').style.display = 'none'
+                        // MAKE THE QUESTION AND ANSOWRS READONLY.
+                        document.querySelector('#q').readOnly = true;
+                        document.querySelector('#A').readOnly = true;
+                        document.querySelector('#B').readOnly = true;
+                        document.querySelector('#C').readOnly = true;
+                        document.querySelector('#D').readOnly = true;
+
+                        // MAKE THE PLAYERS WITH THE QUESTIONS.
+                        // GET THE GAMERS.
+                        let The_Gamers = []
+                        let The_Players_file = []
+                        for(let i = 0 ; i < Object.keys(Players).length ; i++){
+                            console.log('I: ' + i)
+                            if(Q_Gamer_file.id != Players[i].id){
+                                console.log('I: ' + i)
+                                The_Gamers.push(i)
+                                The_Players_file.push(Players[i])
+
+                            }
+                        }
+                        // MAKE THE PRO WITH Player.
+                        let the_pro_Gamer = The_Players_file[Math.floor(Math.random() * The_Players_file.length)];
+                        for(let i = 0; i < Object.keys(Players).length; i++){
+                            if(the_pro_Gamer.id == Players[i].id )
+                            Players[i].pro = properties[THE_NUM]
+                        }
+
+                        // MIX THE QUESTIONS.
+                        tem_Questions = JSON.parse(JSON.stringify(Questions));
+                        tem_Questions = Shuffle(tem_Questions);
+                        let tem;
+                        for (let i = 0; i < tem_Questions.length; i++) {
+                        tem = [];
+                        tem.push(tem_Questions[i].A);
+                        tem.push(tem_Questions[i].B);
+                        tem.push(tem_Questions[i].C);
+                        tem.push(tem_Questions[i].D);
+                        tem = Shuffle(tem);
+                        tem_Questions[i].A = tem[0];
+                        tem_Questions[i].B = tem[1];
+                        tem_Questions[i].C = tem[2];
+                        tem_Questions[i].D = tem[3];
+                        }
+
+                        for (let i = 0; i < tem_Questions.length; i++) {
+                           if(tem_Questions[i].A == tem_Questions[i].right_id){
+                            tem_Questions[i].right_answer = '#A'
+                           }else if(tem_Questions[i].B == tem_Questions[i].right_id){
+                            tem_Questions[i].right_answer = '#B'
+                        }else if(tem_Questions[i].C == tem_Questions[i].right_id){
+                            tem_Questions[i].right_answer = '#C'
+                        }else if(tem_Questions[i].D == tem_Questions[i].right_id){
+                            tem_Questions[i].right_answer = '#D'
+                        }else{
+                            tem_Questions[i].right_answer = '#nothing'
+                        }
+
+                        }
+
+                        for(let i = 0 ; i < Object.keys(The_Gamers).length; i++){
+                            console.log(4)
+                            Players[The_Gamers[i]].q = tem_Questions[i]
+                        }
+
+
+
+
+
+
+                        Gamer_machine()
+                    }
+
+                    function Shuffle(array) {
+                        let currentIndex = array.length,  randomIndex;
+
+                        // While there remain elements to shuffle.
+                        while (currentIndex > 0) {
+
+                          // Pick a remaining element.
+                          randomIndex = Math.floor(Math.random() * currentIndex);
+                          currentIndex--;
+
+                          // And swap it with the current element.
+                          [array[currentIndex], array[randomIndex]] = [
+                            array[randomIndex], array[currentIndex]];
+                        }
+
+                        return array;
+                      }
+                      function Header_place(){
+
+                        document.querySelector('#image_header').innerHTML = ''
+                        document.querySelector('#image_header').style.display = 'none'
+                        document.querySelector('#right_n').style.display = 'none'
+                        document.querySelector('#header_place').append(document.querySelector('#header'))
+                      }
+                    // BETWEEN_GAME.
+                    function Between_Game(station){
+                        lamp = true
+
+                        // MAKE HEADER IN PLACE.
+                        Header_place()
+                        document.querySelector('#header').className = 'countdown'
+                        setcaution({
+                            long: ''
+                        })
+                        if(station == 'Gamer_Q'){
+                            Right_n()
+                        }
+                        if(station == 'Gamer'){
+                            Gamer_between()
+                            return
+                        }else if (station == 'names'){
+                            Names_between()
+                            return
+                            }
+                            else if(station == 'Q_G_machine'){
+                               Q_G_between()
+                            }
+                            else if(station = 'Gamer_Q'){
+                                Gamer_q()
+                            }
+                    }
+
+                    function Right_n(){
+                        document.querySelector('#right_n').style.display = 'block'
+                        document.querySelector('#right_n').append(document.querySelector('#header'))
+                    }
+                    function Gamer_q(){
+                        G_or_Q_G = Q_G
+                        console.log('Hellooo, Its Gamer_Q')
+                            setstate({
+                                ...state,
+                                name_an: Q_Gamer_file.name,
+                                station:'يجاوب',
+                                p1_image:Q_Gamer_file.p1.image,
+                                arabic1:Q_Gamer_file.p1.arabic,
+                                num1:Q_Gamer_file.p1.num,
+                                p2_image:Q_Gamer_file.p2.image,
+                                arabic2:Q_Gamer_file.p2.arabic,
+                                num2:Q_Gamer_file.p2.num,
+                                p3_image:Q_Gamer_file.p3.image,
+                                arabic3:Q_Gamer_file.p3.arabic,
+                                num3:Q_Gamer_file.p3.num,
+                                ana_diraction: Chose_seen
+                            })
+                            between_static()
+                            q_static()
+                            document.querySelector('#pro').style.display = 'none'
+                            document.querySelector('#arrows').style.display = 'none'
+                            document.querySelector('#congrage').style.display = 'none'
+                            document.querySelector('#congrage_image').style.display = 'none'
+                            document.querySelector('#congrage_name').style.display = 'none'
+                            document.querySelector('#between').style.display = 'block'
+                            document.querySelector('#announcement').style.display = 'block'
+                            document.querySelector('#ana_div').style.display = 'block'
+                            document.querySelector('#results').style.display = 'block'
+
+                    }
+                    function Gamer_between(){
+                        console.log('Hellooo, Its Gamer')
+                        G_or_Q_G = G
+                            setstate({
+                                ...state,
+                                name_an: Gamer_file.name,
+                                station:'يجاوب',
+                                p1_image:Gamer_file.p1.image,
+                                arabic1:Gamer_file.p1.arabic,
+                                num1:Gamer_file.p1.num,
+                                p2_image:Gamer_file.p2.image,
+                                arabic2:Gamer_file.p2.arabic,
+                                num2:Gamer_file.p2.num,
+                                p3_image:Gamer_file.p3.image,
+                                arabic3:Gamer_file.p3.arabic,
+                                num3:Gamer_file.p3.num,
+                                ana_diraction: Gamer_pro
+                            })
+                            between_static()
+                            q_static()
+                            document.querySelector('#pro').style.display = 'none'
+                            document.querySelector('#arrows').style.display = 'none'
+                            document.querySelector('#congrage').style.display = 'none'
+                            document.querySelector('#congrage_image').style.display = 'none'
+                            document.querySelector('#congrage_name').style.display = 'none'
+                            document.querySelector('#between').style.display = 'block'
+                            document.querySelector('#announcement').style.display = 'block'
+                            document.querySelector('#ana_div').style.display = 'block'
+                            document.querySelector('#results').style.display = 'block'
+
+                    }
+                    function Names_between(){
+                        console.log(1)
+                            let First_player = true
+                            console.log(Players)
+                            if(Q_Gamer != null){
+                            for(let i = 0; i < Object.keys(Players).length; i++){
+                                if(Players[i].id == Q_Gamer_file.id){
+                                    console.log('Players[i].id: '+ Players[i].id + '  Q_Gamer_file.id: ' +  Q_Gamer_file.id)
+                                    First_player = false
+                                    break;
+                                }
+                            }
+                        }else{
+                            First_player = true
+                        }
+                            if(First_player ==true){
+                                Q_Gamer = null
+                                Q_Gamer_file = null
+                                First_player = false
+                                Q_Gamer_machine('names')
+                            }
+                                setstate({
+                                    ...state,
+                                    name_an: Q_Gamer_file.name,
+                                    station:'يسأل',
+                                    ana_diraction: Q_page
+                                })
+                               Re_names()
+                            Staition = 'between_to_name'
+                        document.querySelector('#plus_icon').addEventListener('animationend', function(){
+                            if(Staition == 'between_to_name'){
+                                righty_between()
+                        document.querySelector('#title').style.display = 'none'
+                        document.querySelector('#names').style.display = 'none'
+                        document.querySelector('#pro').style.display = 'none'
+                        document.querySelector('#congrage').style.display = 'none'
+                        document.querySelector('#congrage_image').style.display = 'none'
+                        document.querySelector('#congrage_name').style.display = 'none'
+                        document.querySelector('#qplace').style.display = 'none'
+                        document.querySelector('#choseing').style.display = 'none'
+                        document.querySelector('#between').style.display = 'block'
+                        document.querySelector('#announcement').style.display = 'block'
+                        document.querySelector('#ana_div').style.display = 'block'
+                        document.querySelector('#results').style.display = 'block'
+
+                            }
+                            })
+                    }
+
+                    function Q_G_between(){
+                        setstate({
+                            ...state,
+                            name_an: Q_Gamer_file.name,
+                            station:'يسأل',
+                            ana_diraction: Q_page
+                        })
+                        righty_between()
+                        document.querySelector('#q_page').style.display = 'none'
+                        document.querySelector('#qplace').style.display = 'none'
+                        document.querySelector('#choseing').style.display = 'none'
+                        document.querySelector('#between').style.display = 'block'
+                        document.querySelector('#congrage').style.display = 'none'
+                        document.querySelector('#congrage_image').style.display = 'none'
+                        document.querySelector('#congrage_name').style.display = 'none'
+                        document.querySelector('#announcement').style.display = 'block'
+                        document.querySelector('#ana_div').style.display = 'block'
+                        document.querySelector('#results').style.display = 'block'
+
+                    }
+
+                    function Gamer_pro(){
+                        console.log('WELCOME TO GAMER_PRO')
+                        lamp = false
+                        document.querySelector('#p1_image').style.display = 'none'
+                        document.querySelector('#p2_image').style.display = 'none'
+                        document.querySelector('#p3_image').style.display = 'none'
+                        if(Gamer_file.p1 != ""){
+                            document.querySelector('#p1_image').style.display = 'block'
+                        }
+                        if(Gamer_file.p2 !=""){
+                            document.querySelector('#p2_image').style.display = 'block'
+                        }
+                        if(Gamer_file.p3 !=""){
+                            document.querySelector('#p3_image').style.display = 'block'
+                        }
+                        document.querySelector('#q_page').style.display = 'none';
+                        document.querySelector('#between').style.display = 'none';
+                        document.querySelector('#div_start_q').style.display = 'none'
+                        document.querySelector('#pro_countdown').style.display = 'block';
+                        document.querySelector('#pro').style.display = 'block';
+                        console.log(Gamer_file.p3.image)
+                        //SET THE COUNTDOWN.
+                        document.querySelector('#pro_countdown').innerHTML = numbers[5]
+                        document.querySelector('#pro_countdown').style.animationName = 'nothing'
+                        document.querySelector('#pro_countdown').style.animationDuration = '0s'
+                        counter = setInterval(event => Countdown('pro_countdown',4),1000);
+                    }
+                    function Reset_pro(){
+                        document.querySelector('#p1_image').append(document.querySelector('#src1'))
+                        document.querySelector('#p2_image').append(document.querySelector('#src2'))
+                        document.querySelector('#p3_image').append(document.querySelector('#src3'))
+                        document.querySelector('#arabic1').append(document.querySelector('#a1'))
+                        document.querySelector('#arabic2').append(document.querySelector('#a2'))
+                        document.querySelector('#arabic3').append(document.querySelector('#a3'))
+
+                    }
+
+                    // THE COUNTDOWN.
+                    function stop_counter(){
+                        clearInterval(counter);
+                    }
+
+                     function Countdown(id,Ar_number){
+                            let countdown = document.querySelector(`#${id}`).innerHTML
+                            if (countdown == numbers[Ar_number]){
+                                console.log('HERE IS THE AR NUMBER SSLSDKLF: ' + countdown)
+                            document.querySelector(`#${id}`).style.animationName = 'countdown_red'
+                            document.querySelector(`#${id}`).style.animationDuration = `${Ar_number}s`
+                            Staition = 'countdown'
+                            document.querySelector(`#${id}`).addEventListener('animationend', function(){
+                                if(Staition == 'countdown'){
+                            document.querySelector(`#${id}`).className = 'countdown_red'
+                            console.log('...........IT LOADED.................')
+                                }
+                            })
+                        }
+                            if (countdown == '٠'){
+                                End_test(id)
+
+                            }else{
+                                countdown = Ar_to_En(countdown)
+                            countdown -= 1
+                            countdown = En_to_Ar(countdown)
+                            document.querySelector(`#${id}`).innerHTML = countdown
+                            }
+                        }
+                     async function End_test(id){
+                                stop_counter()
+                                await new Promise(resolve => setTimeout(resolve, 1000));
+                                document.querySelector(`#${id}`).style.animationName = 'countdown'
+                                if(id !='header'){
+                                    document.querySelector('#pro_countdown').className = 'countdown'
+                                    The_pro_puting()
+                                    if(Players[G_or_Q_G].pro != '' && Players[G_or_Q_G].pro != undefined){
+                                        Q_image_page()
+                                    }
+                                    The_test(Gamer_file.q.id,Gamer_file.q)
+                                }else{
+                                    document.querySelector('#header').className = 'countdown'
+                                    Ansowring('لاشيء مما ذكر','#nothing','show')
+
+                                }
+                            }
+                            function The_pro_puting(place){
+                                //IF THE PRO WAS GAMER, PLAYER.
+                                console.log('SHAAAAAAAAAAAAAAAAAAAAAAA LAAAAAAAAAAAM ALICOME')
+                                console.log('Players[G].pro: '+ Players[G].pro)
+                                console.log('THE_NUM: '+ THE_NUM)
+                                if (THE_NUM !=null && Players[G].pro == "" || THE_NUM !=null && THE_NUM == 8 || THE_NUM !=null && Players[G].pro == undefined){
+                                    if(properties[THE_NUM].side == 'With'){
+                                        Players[G].pro = properties[THE_NUM]
+                                        console.log(G)
+                                        console.log('with')
+                                    }else{
+                                        if(G + 1 == Object.keys(Players).length){
+                                            console.log(G)
+                                            Players[0].pro = properties[THE_NUM]
+                                        }else{
+                                            console.log(G)
+                                            Players[G + 1].pro = properties[THE_NUM]
+                                        }
+                                    }
+                                        if(Players[G].p1.num == properties[THE_NUM].num){
+                                            Players[G].p1 = ''
+                                        }else if(Players[G].p2.num == properties[THE_NUM].num){
+                                            Players[G].p2 = ''
+                                        }else if(Players[G].p3.num == properties[THE_NUM].num){
+                                            Players[G].p3 = ''
+                                        }
+                                    THE_NUM = null
+                                    //IF THE PRO WAS Q_GAMER, ASKER.
+                            }
+                            }
+
+                            function Q_image_page(){
+                                // THE IMAGE HEADER WHERE THE PRO WILL BE.
+                                Right_n()
+                                document.querySelector('#image_header').innerHTML = ''
+                                document.querySelector('#image_header').style.display = 'block'
+
+                                document.querySelector('#image_header').innerHTML = `<img src='${Players[G].pro.image}' width = '100%' height = '100%'>`
+                            }
+
+
+                        // THE TEST START HERE.
+                        function The_test(Gamer_id , Gamer_q){
+                            lamp = false
+                            Staition = null
+                            // PRO CHANGING_1.
+                            let x = 1;
+                            let y = 5;
+                            if(Players[G_or_Q_G].pro != "" && Players[G].pro != undefined){
+                            if (Players[G_or_Q_G].pro.name =='FAST_GAME'){
+                                y = 0
+                            }else if(Players[G_or_Q_G].pro.name == 'MORE_TIME'){
+                                x = 2
+                                y = 0
+                            }else if(Players[G_or_Q_G].pro.name == 'ELIMINATE_PROPERTIE'){
+                                Eliminate()
+                            }else if(Players[G_or_Q_G].pro.name == 'TAKE_RANDOM_Q_WORD'){
+                                Take_q_word()
+                            }else if(Players[G_or_Q_G].pro.name == 'REVERSE_DIRECTION'){
+                                Reverse = true
+                            }
+                        }
+                            New_info(String(numbers[x]) + String(numbers[y]),Gamer_id,Gamer_q,'dont_show_up')
+                            document.querySelector('#pro').style.display = 'none'
+                            document.querySelector('#q_page').style.display = 'block'
+                            //THE PRO EFFECTS.
+                            if(Players[G_or_Q_G].pro != "" && Players[G_or_Q_G].pro != undefined){
+
+                                var snd = new Audio(Players[G_or_Q_G].pro.voice)//wav is also supported
+                                snd.play()//plays the sound
+                            }
+                            counter = setInterval(event => Countdown('header',8),1000);
+                        }
+                        function Take_q_word(){
+                             Players[G].q.q = Players[G].q.q.split(" ")
+                            var split = Players[G].q.q[Math.floor(Math.random() * Players[G].q.q.length)];
+
+                            for(let i = 0; i < Object.keys(Players[G].q.q).length; i++){
+                                console.log('split: ' + split)
+                                console.log('Players[G].q.q[i]: ' + Players[G].q.q[i])
+                                if(split == Players[G].q.q[i]){
+                                     Players[G].q.q[i] = "\'_ _ _\'"
+                                }
+                            }
+                            Players[G].q.q = Players[G].q.q.join(" ")
+
+
+                        }
+
+                        function Eliminate(){
+                            if(Players[G].p1 != undefined && Players[G].p1 != ""){
+                            Players[G].p1 = ""
+                            }else if(Players[G].p2 != undefined && Players[G].p2 != ""){
+                                Players[G].p2 = ""
+                            }else{
+                                Players[G].p3 = ""
+                            }
+                }
+
+                        function Delete_ansowr(){
+                            let wrong_ansowr= []
+                            if('لاشيء مما ذكر' != Players[G].q.right_id){
+                                wrong_ansowr.push('nothing')
+                            } if(Players[G].q.A != Players[G].q.right_id){
+                                wrong_ansowr.push('A')
+                            } if(Players[G].q.B != Players[G].q.right_id){
+                                wrong_ansowr.push('B')
+                            } if(Players[G].q.C != Players[G].q.right_id){
+                                wrong_ansowr.push('C')
+                            } if(Players[G].q.D != Players[G].q.right_id){
+                                wrong_ansowr.push('D')
+                            }
+                            let gray_ansowr = wrong_ansowr[Math.floor(Math.random() * wrong_ansowr.length)];
+                            console.log('gray_ansowr: '+ gray_ansowr)
+                            console.log('wrong_ansowr: '+ wrong_ansowr)
+                            if(gray_ansowr == 'nothing'){
+                                document.querySelector('#nothing').style.color = 'gray'
+                                document.querySelector('#nothing').style.textShadow = '-1px 1px 0 Silver, 1px 1px 0 Silver, 1px -1px 0 Silver, -1px -1px 0 Silver'
+                            }else{
+                                document.querySelector(`#${gray_ansowr}_sign`).style.color = 'gray'
+                                document.querySelector(`#${gray_ansowr}`).style.color = 'gray'
+                            }
+                        }
+
+                        function Chose_seen(){
+                            console.log('Hello Chose_seen')
+                            for(let i = 0 ; i < Object.keys(Questions).length; i++){
+                                let one_q
+                                console.log(i + 1 + ' سؤال')
+                                one_q = document.createElement('div')
+                                one_q.className = 'one_q'
+                                one_q.innerHTML=`<h1 class = "s_w">سؤال</h1> <h1  class = "s_n">${numbers[i + 1]}</h1>`
+                                document.querySelector('#chose_seen').append(one_q)
+                                one_q.addEventListener('click', () => Q_Q_Gamer(i))
+                            }
+
+                            document.querySelector('#between').style.display = 'none'
+                            document.querySelector('#announcement').style.display = 'none'
+                            document.querySelector('#ana_div').style.display = 'none'
+                            document.querySelector('#q_page').style.display = 'none'
+                            document.querySelector('#qplace').style.display = 'none'
+                            document.querySelector('#choseing').style.display = 'none'
+                            document.querySelector('#background_limit').style.display = 'block'
+                        }
+                        function Q_Q_Gamer(q_number){
+                            console.log('YOU ARE WELCOME HERE TO THE <Q-Q-GAMER>')
+                                // THE IMAGE HEADER WHERE THE PRO WILL BE.
+                                document.querySelector('#image_header').innerHTML = ''
+                                document.querySelector('#image_header').style.display = 'block'
+                                let name_header = document.createElement('h1')
+                                name_header.setAttribute("id", 'name_header')
+                                document.querySelector('#image_header').append(name_header)
+                                for(let i = 0; i < Object.keys(Players).length; i++){
+                                    console.log('Player_q_id: ' + name_header.innerHTML + ' Quesiont_id: '+ Questions[q_number].id)
+                                    if(Players[i].q.id == Questions[q_number].id){
+                                        name_header.innerHTML = Players[i].name
+
+                                    }
+                                }
+
+
+                                document.querySelector('#background_limit').style.display = 'none'
+                                document.querySelector('#q_page').style.display = 'block'
+                                document.querySelector('#chose_seen').innerHTML= ''
+                                Players[Q_G].q = Questions[q_number]
+                            The_test(Questions[q_number].id,Questions[q_number])
+                        }
+
+                        async function Ansowring(The_ansowr,id,show){
+                             let ansowr = false
+                            if(START == true){
+                                document.querySelector('#nothing').style.pointerEvents = 'none'
+                                document.querySelector('#q').style.pointerEvents = 'none';
+                                document.querySelector('#A').style.pointerEvents = 'none';
+                                document.querySelector('#B').style.pointerEvents = 'none';
+                                document.querySelector('#C').style.pointerEvents = 'none';
+                                document.querySelector('#D').style.pointerEvents = 'none';
+                                stop_counter()
+                                Gray()
+                                Blink_right()
+
+
+                                console.log('G_or_Q_G: ' + G_or_Q_G)
+                            console.log('WEEEEELCOOOOM')
+                            if(Players[G_or_Q_G].q.right_id == The_ansowr){
+                                console.log('THEEEEEE RIGHT ANSOWWWR')
+                                Players[G_or_Q_G].score += 1
+                                ansowr = true
+                            }else{
+                                // CHANGE THE WRIHT ANSOWR.
+                                let skip = false
+                                if(Players[G_or_Q_G].pro != "" && Players[G].pro != undefined){
+                                if(Players[G].pro.name =='NOT_PLAYING'){
+                                    skip = true
+                                }
+                                if(Players[G].pro.name =='ANOTHER_Q'){
+                                    Change_the_ansowr(The_ansowr)
+                                Players[G].pro = "";
+                                Players[G].q = tem_Questions[Math.floor(Math.random() * tem_Questions.length)];
+                                document.querySelector('#nothing').style.pointerEvents = 'auto'
+                                document.querySelector('#q').style.pointerEvents = 'auto';
+                                document.querySelector('#A').style.pointerEvents = 'auto';
+                                document.querySelector('#B').style.pointerEvents = 'auto';
+                                document.querySelector('#C').style.pointerEvents = 'auto';
+                                document.querySelector('#D').style.pointerEvents = 'auto';
+                                The_test(Gamer_file.q.id,Gamer_file.q)
+                                skip = true
+                                return
+                                }
+                            } else if (skip == false){
+                                console.log('THEEEEEE WRONG ANSOWWWR')
+                                Players[G_or_Q_G].score -= 1
+                                document.querySelector(`${id}`).style.color = 'red'
+                            console.log(id)
+                            if (id !='#nothing'){
+                            document.querySelector(`${id}_sign`).style.color = 'red'
+                            }else{
+                                document.querySelector(`${id}`).style.textShadow = '-1px 1px 0 pink, 1px 1px 0 pink, 1px -1px 0 pink, -1px -1px 0 pink'
+                            }
+                        }
+
+                    }
+
+
+                            id =  Players[G_or_Q_G].q.right_answer
+                            document.querySelector(`${id}`).style.display = 'block'
+                            if(id !='#nothing'){
+                                document.querySelector(`${id}_sign`).style.display = 'block'
+                            }
+
+                            for(let i = 0; i < 5; i++){
+                              await new Promise(resolve => setTimeout(resolve, 500));
+                            if(document.querySelector(`${id}`).style.display == 'block'){
+                                document.querySelector(`${id}`).style.display = 'none'
+                                if(id !='#nothing'){
+                                    document.querySelector(`${id}_sign`).style.display = 'none'
+                                }
+                            }else{
+                                document.querySelector(`${id}`).style.display = 'block'
+                                if(id !='#nothing'){
+                                    document.querySelector(`${id}_sign`).style.display = 'block'
+                                }
+                            }
+
+                            }
+                            document.querySelector(`${id}`).style.display = 'block'
+                            if(id !='#nothing'){
+                                document.querySelector(`${id}_sign`).style.display = 'block'
+                            }
+
+
+                            if (ansowr ==true){
+                                for(let i = 1; i < 4; i++){
+                                    if(Players[G_or_Q_G].p1 == ''){
+                                        Players[G_or_Q_G].p1 = properties[Math.floor(Math.random() * properties.length)];
+                                        console.log('THE NEW PRO IN P1')
+                                        //TO SHOW THE NEW PRO TO THE PLAYER.
+                                        Showing(Players[G_or_Q_G].p1, The_ansowr)
+                                        return;
+                                    }
+                                    else if (Players[G_or_Q_G].p2 == ''){
+                                        Players[G_or_Q_G].p2 = properties[Math.floor(Math.random() * properties.length)];
+                                        console.log('THE NEW PRO IN P2')
+                                        //TO SHOW THE NEW PRO TO THE PLAYER.
+                                        Showing(Players[G_or_Q_G].p2, The_ansowr)
+                                        return;
+                                    }
+                                    else if (Players[G_or_Q_G].p3 == ''){
+                                        Players[G_or_Q_G].p3 = properties[Math.floor(Math.random() * properties.length)];
+                                        console.log('THE NEW PRO IN P3')
+                                        //TO SHOW THE NEW PRO TO THE PLAYER.
+                                        Showing(Players[G_or_Q_G].p3, The_ansowr )
+                                        return;
+                                    }
+                                }
+
+
+                            }
+                            Change_the_ansowr(The_ansowr)
+                            Gamer_machine()
+
+
+                        }
+                        }
+
+                        async function Showing(pro , The_ansowr){
+                            console.log('This is the new pro for you.')
+                            between_static()
+                            q_static()
+
+                            setstate({
+                                ...state,
+                                new_pro_img:pro.image,
+                                new_pro_name: pro.arabic
+                            })
+                            document.querySelector('#pro').style.display = 'none'
+                            document.querySelector('#arrows').style.display = 'none'
+                            document.querySelector('#between').style.display = 'block'
+                            document.querySelector('#announcement').style.display = 'none'
+                            document.querySelector('#ana_div').style.display = 'none'
+                            document.querySelector('#results').style.display = 'none'
+                            document.querySelector('#congrage').style.display = 'block'
+                            document.querySelector('#congrage_image').style.display = 'block'
+                            document.querySelector('#congrage_name').style.display = 'block'
+                            await new Promise(resolve => setTimeout(resolve, 3000));
+                            Change_the_ansowr(The_ansowr)
+                            Gamer_machine()
+                        }
+
+
+                        function Change_the_ansowr(The_ansowr){
+                            for(let i = 0; i < Object.keys(Questions).length; i++){
+                                if(Questions[i].id == Gamer_file.q.id){
+                                    Questions[i].right_id = The_ansowr
+                                    if(Questions[i].A == Questions[i].right_id){
+                                        Questions[i].right_answer = '#A'
+                                        }else if(Questions[i].B == Questions[i].right_id){
+                                        Questions[i].right_answer = '#B'
+                                    }else if(Questions[i].C == Questions[i].right_id){
+                                        Questions[i].right_answer = '#C'
+                                    }else if(Questions[i].D == Questions[i].right_id){
+                                        Questions[i].right_answer = '#D'
+                                    }else{
+                                        Questions[i].right_answer = '#nothing'
+                                    }
+                            }
+                        }
+                    }
+                     function Blink_right(){
+                            let id = Players[G_or_Q_G].q.right_answer
+                            console.log('The id ' + id)
+                            document.querySelector(`${id}`).style.color = '#FFC90E'
+                            console.log(id)
+                            if (id !='#nothing'){
+                            document.querySelector(`${id}_sign`).style.color = '#FFC90E'
+                            }else{
+                                document.querySelector('#nothing').style.textShadow = '-1px 1px 0 yellow, 1px 1px 0 yellow, 1px -1px 0 yellow, -1px -1px 0 yellow'
+                            }
+
+
+                        }
+
+                        function Gray(){
+                            document.querySelector('#A_sign').style.color = 'gray'
+                            document.querySelector('#B_sign').style.color = 'gray'
+                            document.querySelector('#D_sign').style.color = 'gray'
+                            document.querySelector('#C_sign').style.color = 'gray'
+                            document.querySelector('#nothing').style.color = 'gray'
+                            document.querySelector('#A').style.color = 'gray'
+                            document.querySelector('#B').style.color = 'gray'
+                            document.querySelector('#D').style.color = 'gray'
+                            document.querySelector('#C').style.color = 'gray'
+                            document.querySelector('#nothing').style.textShadow = '-1px 1px 0 Silver, 1px 1px 0 Silver, 1px -1px 0 Silver, -1px -1px 0 Silver'
+
+
+                        }
+
+                        var[state , setstate] = React.useState({
+                            name: "",
+                            q:"",
+                            A:'',
+                            B:'',
+                            C:'',
+                            D:'',
+                            number: '١',
+                            lefty_arrow: titlePage,
+                            p1_image:'nothing',
+                            arabic1: 'nothing',
+                            num1:'nothing',
+                            p2_image:'nothing',
+                            arabic2: 'nothing',
+                            num2:'nothing',
+                            p3_image:'nothing',
+                            arabic3: 'nothing',
+                            num3:'nothing',
+                            arabic4: 'nothing',
+                            img:'image/OPINION_image.png',
+                            name_an:'haay',
+                            station:'',
+                            result_button: Result
+
+                        })
+                        async function Result(){
+
+                            setbutton({
+                                ...state,
+                                result_button: Back_to_betwen,
+                            })
+                            document.querySelector('#ball_paper').style.display = 'block'
+                            console.log(Staition)
+                            document.querySelector('#Players').innerHTML = ''
+                            let tem = '';
+                            for(let i = 0; i < Object.keys(Players).length; i++){
+                                 tem = tem + ` <br> <br> <br> <br><li class='li'><div class='ol_score'>${En_to_Ar(Players[i].score)}</div><div class='ol_name'>${Players[i].name}</div></li> <br>`
+                            }
+                            document.querySelector('#Players').innerHTML = tem
+                            Staition = 'Result_into'
+                            document.querySelector('#ball_paper').style.animationName = 'open_paper'
+                            document.querySelector('#ball_paper').addEventListener('animationend', function(){
+                                if(Staition == 'Result_into'){
+                                document.querySelector('#between').style.background = 'url("image/corved_paper.jpeg") no-repeat center'
+                                document.querySelector('#qplace').style.display = 'none'
+                                document.querySelector('#ball_paper').style.display = 'none'
+                                document.querySelector('#choseing').style.display = 'none'
+                                document.querySelector('#ana_div').style.display = 'none'
+                                document.querySelector('#ana_div').style.display = 'none'
+                                document.querySelector('#announcement').style.display = 'none'
+                                document.querySelector('#corved_paper').style.display = 'block'
+                                document.querySelector('#results').innerHTML = 'الرجوع'
+                                }
+                            })
+
+                            await new Promise(resolve => setTimeout(resolve, 750));
+                            Sound_paper()
+
+                        }
+                        function Back_to_betwen(){
+                            Sound_paper()
+                            console.log('Hello')
+                            Staition = 'Result_back'
+                            document.querySelector('#ball_paper').style.animationName = 'close_paper'
+                            document.querySelector('#ball_paper').style.display = 'block'
+                            document.querySelector('#ana_div').style.display = 'block'
+                            document.querySelector('#announcement').style.display = 'block'
+                            document.querySelector('#corved_paper').style.display = 'none'
+                            document.querySelector('#results').innerHTML = 'النتائج'
+                            document.querySelector('#between').style.background = ''
+                            document.querySelector('#ball_paper').addEventListener('animationend', function(){
+                                if(Staition == 'Result_back'){
+                                document.querySelector('#ball_paper').style.display = 'none'
+                                }
+                            })
+                            console.log('name: '+ state.name_an)
+                            setbutton({
+                                ...state,
+                                result_button: Result,
+
+                            })
+                        }
+
+
+
+
+
+// VARIABELS.
+var[state , setstate] = React.useState({
+    name: "",
+    q:"",
+    A:'',
+    B:'',
+    C:'',
+    D:'',
+    number: '١',
+    lefty_arrow: titlePage,
+    p1_image:'nothing',
+    arabic1: 'nothing',
+    num1:'nothing',
+    p2_image:'nothing',
+    arabic2: 'nothing',
+    num2:'nothing',
+    p3_image:'nothing',
+    arabic3: 'nothing',
+    num3:'nothing',
+    arabic4: 'nothing',
+    img:'image/OPINION_image.png',
+    name_an:'',
+    station:'',
+    new_pro_img:'',
+    new_pro_name:'',
+    speach1_inpage: '',
+    speach2_inpage: '',
+
+})
+var[caution , setcaution] = React.useState({
+    long:"",
+
+})
+
+var[button , setbutton] = React.useState({
+    result_button: Result
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                return(
+                    <div id="show" class='page_size'>
+
+                        {/*
+                           THE TITLE PAGE.
+                            */}
+                            {/*
+                           THE LEFT ARROW.
+                            */}
+                            <div id='arrows'>
+                            <img src="left_arrow.png" data-arrow='left' id="left_arrow"  onClick={state.lefty_arrow} class='arrow'width='15%' height='5.5%'/>
+                            <img src="right_arrow.png" data-arrow='right' onClick={event =>New_q('right') } id="right_arrow" class='arrow'width='15%' height='5.5%'/>
+                            </div>
+                        <div id='title'>
+                        <audio  autoplay>
+                            <source src="move_effect.mp3" type="audio/mpeg"/>
+                  Your browser does not support the audio element.
+                            </audio>
+
+                        <div id="title_name">
+                        <img src="seen.png" id="title_img_seen" width="30%" height="30%"/>
+                        <img src="left_question_mark.png" id="title_img_question"  width="20%" height="30%"/>
+                        <h1 id="title_sooaal">سؤال/</h1>
+                        </div>
+
+
+                        <div id="list">
+                            <h1 id="play_button"class="title_click" onClick={Names} ><strong>العب</strong></h1>
+                            <br/>
+                            <br/>
+                            <h1 id="me" class="title_click" onClick={Programer}><strong>المطور</strong></h1>
+                        </div>
+                    </div>
+                    <div id='small_page'>
+                    </div>
+                    {/*
+                        THE NAMES PAGE.
+                            */}
+                            <div id="names" class='page_size'>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div id='up_place'>
+                                    <div id="names_place">
+                                    <ol id="ol_names" dir='rtl'>
+                                    </ol>
+                                </div>
+                                    <h6 class="caution_name">{caution.long}</h6>
+                                </div>
+                                <label  id="name_word" for="test">:الاسم</label>
+                                <span id="span_name">
+
+                                    <input  onChange={event => Typing(event, 10 , 'name')}  value={state.name}  id="input_name" type="text"  autoComplete="off" autoFocus={true}/>
+
+                                    <img onClick={New_Name}id='plus_icon'src='plus_icon.png' width='10%' height='10%'/>
+                                </span>
+                                <div id='nothing_names'></div>
+                                <div id="div_start">
+                                    <button type='button' onClick={event => Between_Game('names')} id="button_stop" >التالي</button>
+                                </div>
+
+                            </div>
+                            {/*
+                        THE PROGRAMER PAGE.
+                            */}
+                            <div id='programer' class='page_size'>
+                                <div id='uper_programer'>
+                                <div id='me_holder'>
+                                    <div id='detiles'>
+                                        <bold><span id='smicolen'>:</span></bold>
+                                        <strong><span class='smicolen' id='smicolen1'>:</span></strong>
+                                        <strong><span class='smicolen' id='smicolen2' >:</span></strong>
+                                        <strong><span class='smicolen' id='smicolen3' >:</span></strong>
+                                    <span><label id='name_word_2'><bold><span id='ahmed'>أحمد باسرده </span></bold></label><img src='profile.png' id='name_icon' width='20%' height='15%'/></span>
+                                    <span><label id='email_word'><strong><span id='gmail'>ahmed.basrada@gmail.com </span></strong></label><img src='email.png' id='email_icon' width='20%' height='15%'/></span>
+                                    <span><label id='phone_number'><strong><span id='zero_fife'>٠٥٣٤٦٨٦١٣٢</span> </strong></label><img src='call.png' id='phone_icon' width='20%' height='15%'/></span>
+                                    <span><label id='calendar_number'><strong><span id='birthday'>٠٢/٨/١٦ </span></strong></label><img src='calendar.png' id='calendar_icon' width='20%' height='15%'/></span>
+                                    </div>
+                                    <img src='me.jpeg' id='me_pictur' width='90%' height='90%'/>
+                                    </div>
+                                    <strong><div id='db_games'>
+                                        db.games
+                                    </div>
+                                </strong>
+                                    <div id='logo_holder' >
+                                        <img src='db.logo.png' id='db_logo' width='100%' height='100%'/>
+                                    </div>
+                            </div>
+                            <h1 id='hr2'>________________</h1>
+                            <div id='what_is_seen_sooal'>
+                             <bold> <div id='speach1_inpage'></div>
+
+                             <br/>
+                             <div id='speach2_inpage'></div>
+                             <div id='speach2_inpage_en' ></div>
+                             <div id='speach3_inpage'></div>
+                             <div id='speach3_inpage_en'></div>
+                             </bold>
+                            </div>
+                            <canvas id="canvas" height="250px" width="250px"></canvas>
+                                <div class="buttons">
+                                <button id="play_butto" onclick="play()">play</button>
+                                </div>
+                        </div>
+                            {/*
+                        THE Q PAGE.
+                            */}
+                            <div id='image_header'>
+                            </div>
+                            <div id='q_page' class='page_size'>
+                                <div id='right_n'>
+                                </div>
+                                <div id='header_place'>
+                                <div class='countdown' id='header'>
+                                    {state.number}
+
+                                </div>
+                            </div>
+                                <div id='q_image_div'>
+                                    <span  onClick={Opinion} id='q_image' ><img  width='100%'  height='100%' src={state.img}/></span>
+                                </div>
+                                <div id='the_q_place'>
+                                <div id="input_container">
+                                <h6 class="caution_name">{caution.long}</h6>
+                                <textarea onKeyUp={event => textAreaAdjust( 20, 'q')}  onChange={event => Typing(event, 65 , 'q')} autoFocus={true} autocomplete="off" id='q' placeholder="سؤال"   value={state.q}></textarea>
+                                <img src="left_question_mark.png" id="input_img_q"/>
+                                <img src="seen.png" id="input_img_seen"/>
+                                <h1 id='sign'><strong>/</strong></h1>
+                            </div>
+                        </div>
+                            <div id='ansowrs'>
+                                <div id='ansowring_nothing' onClick={event => Ansowring('لاشيء مما ذكر','#nothing','show')}>
+                                 <h1 id='nothing' onClick={event => Chose('#nothing','show')}>لاشيء مما ذكر</h1>
+                                </div>
+                                <div id='ansowring_A' onClick={event =>  Ansowring(state.A,'#A','show')}>
+                                <textarea onKeyUp={event => textAreaAdjust( 3, 'A')}  onChange={event => Typing(event, 10 , 'A')}  autocomplete="off" id='A' class='ansowrs' placeholder="جواب"   value={state.A}></textarea>
+                                <h1 id='A_sign' onClick={event => Chose('#A','show')} class='signs'><strong>أ</strong></h1>
+                                </div>
+                                <div id='ansowring_B' onClick={event => Ansowring(state.B,'#B','show')}>
+                                <textarea onKeyUp={event => textAreaAdjust( 3, 'B')}  onChange={event => Typing(event, 10 , 'B')}  autocomplete="off" id='B' class='ansowrs' placeholder="جواب"   value={state.B}></textarea>
+                                <h1 id='B_sign' onClick={event => Chose('#B','show')} class='signs'><strong>ب</strong></h1>
+                                </div>
+                                <div id='ansowring_C' onClick={event => Ansowring(state.C,'#C','show')}>
+                                <textarea onKeyUp={event => textAreaAdjust( 3, 'C')}  onChange={event => Typing(event, 10 , 'C')}  autocomplete="off" id='C' class='ansowrs' placeholder="جواب"   value={state.C}></textarea>
+                                <h1 id='C_sign'onClick={event => Chose('#C','show')} class='signs'><strong>د</strong></h1>
+                                </div>
+                                <div id='ansowring_D' onClick={event => Ansowring(state.D,'#D','show')}>
+                                <textarea onKeyUp={event => textAreaAdjust( 3, 'D')}  onChange={event => Typing(event, 10 , 'D')}  autocomplete="off" id='D' class='ansowrs' placeholder="جواب"   value={state.D}></textarea>
+                                <h1 id='D_sign' onClick={event => Chose( '#D','show')} class='signs'><strong>ج</strong></h1>
+                                </div>
+
+                            </div>
+                            </div>
+                            <div id='between'>
+                                <h1 id='congrage'>الخاصية الجديدة</h1>
+                                <div id='congrage_image'>
+                                    <img src={state.new_pro_img} width='100%' height='100%'/>
+                                </div>
+                                <div id='congrage_name'>
+                                    {state.new_pro_name}
+                                </div>
+                                <div id='announcement'>
+                                    دور <span id='name_announce'>{state.name_an}</span> لكي {state.station}
+                                </div>
+                                <div id='qplace'>
+                                </div>
+                                <div id='ball_paper'>
+                                    <img src='image/ball_paper.png'/>
+                                </div>
+                                <div id='corved_paper'>
+                                    <h1 class='up_paper'id='names_w'>
+                                        الاسم
+                                    </h1>
+                                    <h1 class='up_paper'id='result_w'>
+                                        النتائج
+                                    </h1>
+                                    <h1 class='up_paper'id='hr'>
+                                        ______
+                                    </h1>
+
+                                    <div class='up_paper' id='paper_content'>
+                                        <div id='ol'>
+                                        <ol id='Players' dir='rtl'>
+
+                                        </ol>
+                                    </div>
+                                    </div>
+
+                                </div>
+                                <div id='choseing'>
+                                    <button onClick={qNames} id='delete' class='ansowrs' >حذف</button>
+                                    <button onClick={Back} id='back' class='ansowrs' >الرجوع</button>
+                                </div>
+                                <div id='ana_div'>
+                                    <button onClick={state.ana_diraction}id='ana_button'>أنا {state.name_an}</button>
+                                </div>
+                                <div>
+                                    <button id='results'  onClick={button.result_button} >النتائج</button>
+                                </div>
+                            </div>
+
+                            <div id='pro' class='page_size'>
+                                <div id='caution_last'>
+                                <h6 class="caution_name">{caution.long}</h6>
+                                </div>
+                                <div id='talants'>
+                                    <h1 id='properties'>:الخصائص</h1>
+                                    <div id='hexagons'>
+                                        <span><img id='p1_place' src='silver_hexagone.png' width = '28%' height = '28%'/> &nbsp;</span>
+                                        <span><img id='p2_place' src='silver_hexagone.png' width = '28%' height = '28%'/> &nbsp;</span>
+                                        <span><img id='p3_place' src='silver_hexagone.png' width = '28%' height = '28%'/></span>
+                                        <br/>
+                                        <span id='p1_image' class='p_images' onClick={event =>Replace('arabic1','p1_image','a1','src1',state.num1)} ><img id='src1' src={state.p1_image} width = '100%' height = '100%'/> </span>&nbsp;
+                                        <span id='p2_image' class='p_images' onClick={event =>Replace('arabic2','p2_image','a2','src2',state.num2)}  ><img id='src2' src={state.p2_image} width = '100%' height = '100%'/></span> &nbsp;
+                                        <span id='p3_image' class='p_images' onClick={event =>Replace('arabic3','p3_image','a3','src3',state.num3)} ><img id='src3' src={state.p3_image} width = '100%' height = '100%'/> </span>&nbsp;
+                                        <span id='arabic1' class='arabic'> <span id='a1'>{state.arabic1}</span></span>
+                                        <span id='arabic2' class='arabic'> <span id='a2'>{state.arabic2}</span></span>
+                                        <span id='arabic3' class='arabic' ><span id='a3'>{state.arabic3}</span></span>
+                                    </div>
+
+                                    <div id='golden_hexagon'  onClick={Return}>
+                                        <img src='golden_hexagone.png' width = '28%' height = '28%'/>
+                                        <span id='golden_span' ></span>
+                                        <span id='golden_arabic' class='arabic'> </span>
+                                    </div>
+                                </div>
+                                <div class='countdown' id='pro_countdown'>
+                                    ٥
+                                </div>
+                                <div id="div_start_q">
+                                    <button type='button' onClick={Start} id="start_q" >أبدء</button>
+                                </div>
+                            </div>
+                            <div id='New'>
+                            </div>
+                            <div id='background_limit'>
+                            <div id='chose_seen' >
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                )
+
+            }
+
+
+
+
+        ReactDOM.render(<Home />, document.getElementById("Show"));
+
+</script>
+
+<script>
+    var loader = document.getElementById('preloader');
+    window.addEventListener('load' , function(){
+        loader.style.display = 'none'
+        document.querySelector('#title_img_seen').style.animationPlayState = 'running'
+        document.querySelector('#title_img_question').style.animationPlayState = 'running'
+        document.querySelector('#title_sooaal').style.animationPlayState = 'running'
+        document.querySelector('#me').style.animationPlayState = 'running'
+        document.querySelector('#play_button').style.animationPlayState = 'running'
+        document.querySelector('#button_stop').disabled= true
+
+
+
+
+        'use strict';
+
+        const play_butto = document.querySelector("#play_butto");
+
+        // Set up the canvas variables
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const canvas_width = canvas.width;
+        const canvas_height = canvas.height;
+
+        // Build the paddle + variables
+        const paddle_width= 50;
+        const paddle_height = 10;
+        let paddleX;
+        let leftPressed = false;
+        let rightPressed = false;
+
+        // Build the ball + variables
+        const ball_size = 10;
+        let X;
+        let y;
+        let dx;
+        let dy;
+
+        let score;
+        let level;
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.rect(X, y, ball_size, ball_size);
+            ctx.fillStyle = "rgb(255,0,0)";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawPaddle() {
+            ctx.beginPath();
+            ctx.rect(paddleX, canvas_height - 20, paddle_width, paddle_height);
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawScore() {
+            ctx.font = "16px Monospace";
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.fillText(`score: ${score}`, 8, 20)
+        }
+
+        function drawLevel() {
+            ctx.font = "16px Monospace";
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.fillText(`level: ${level}`, 8, 40);
+        }
+
+        function drawGameOver () {
+            ctx.font = "24px Monospace";
+            ctx.fillStyle = "rgb(255,255,255)";
+            ctx.fillText("GAME OVER", (canvas_width - 100)/2, canvas_height/2, 100);
+        }
+
+        // Keep track of which key is pressed
+        function keyDownHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") {
+                rightPressed = true;
+                leftPressed = false;
+            }
+
+            if (e.key === "Left" || e.key === "ArrowLeft") {
+                rightPressed = false;
+                leftPressed = true;
+            }
+        }
+
+        // Clear which key is pressed
+        function keyUpHandler(e) {
+            if (e.key === "Right" || e.key === "ArrowRight") {
+                rightPressed = false;
+            }
+
+            if (e.key === "Left" || e.key === "ArrowLeft") {
+                leftPressed = false;
+            }
+        }
+
+        function mouseMoveHandler(e) {
+            const relativeX = e.clientX - canvas.offsetLeft;
+            if (relativeX > 0 && relativeX < canvas.width) {
+                paddleX = relativeX - paddle_width/2;
+            }
+        }
+
+        function touchHandler(e) {
+            console.log("touch");
+            if (e.touches) {
+                const relativeX = e.touches[0].pageX - canvas.offsetLeft;
+                if (relativeX > 0 && relativeX < canvas.width) {
+                    paddleX = relativeX - paddle_width/2;
+                }
+            }
+        }
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+        document.addEventListener("mousemove", mouseMoveHandler, false);
+        document.addEventListener("touchstart", touchHandler);
+        document.addEventListener("touchmove", touchHandler);
+
+        // clear canvas
+        // update position of ball and paddle
+        function draw() {
+            ctx.clearRect(0,0,canvas_width, canvas_height);
+            drawBall();
+            drawPaddle();
+            drawScore();
+            drawLevel();
+
+            // If ball is at right or left edge reverse x direciton
+            if (X+dx < 0 || x+dx > canvas_width - ball_size) {
+                dx = -dx;
+            }
+
+            // If ball is at top edge reverse y direction
+            if (y+dy < 0) {
+                dy = -dy;
+            }
+
+            // If ball hits paddle reverse y direction
+            // If ball hits bottom edge end
+            else if (y+dy > canvas_height-3*ball_size ) {
+                if (X > paddleX-ball_size && X < paddleX + paddle_width + ball_size) {
+                    dy = -dy;
+                    score++;
+                    if (score%5 === 0) {
+                        level += 1;
+                        dy += 0.5*Math.sign(dy);
+                        dx += 0.5*Math.sign(dx);
+                    }
+                }
+
+                else {
+                    drawGameOver();
+                    play_butto.disabled = false;
+                    return;
+                }
+            }
+
+            // Update paddle position
+            if (rightPressed) {
+                paddleX = Math.min(paddleX + 7, canvas_width - paddle_width);
+            }
+            if (leftPressed) {
+                paddleX = Math.max(paddleX - 7, 0);
+            }
+
+            // Update ball position
+            X += dx;
+            y += dy;
+
+            requestAnimationFrame(draw);
+        }
+
+        function play() {
+            play_butto.innerText = "restart";
+            play_butto.disabled = true;
+            X = Math.random()*canvas_width;
+            y = Math.random()*canvas_height/3;
+            dx = 3;
+            dy = 3;
+            paddleX = (canvas_width - paddle_width) / 2;
+            score = 0;
+            level = 1;
+
+            draw();
+        }
+
+    })
+</script>
+</body>
+</html>
